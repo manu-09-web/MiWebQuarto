@@ -1,0 +1,2 @@
+Pon aquí tu foto como mifoto.jpeg para que aparezca en la landing.
+Si no existe, se muestran tus iniciales.

@@ -1,0 +1,16 @@
+[
+  {
+    "listing": "/feed.html",
+    "items": [
+      "/posts/kotlin-compose/index.html",
+      "/posts/proyecto-integrador/index.html"
+    ]
+  },
+  {
+    "listing": "/blog.html",
+    "items": [
+      "/posts/kotlin-compose/index.html",
+      "/posts/proyecto-integrador/index.html"
+    ]
+  }
+]

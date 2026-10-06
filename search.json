@@ -1,0 +1,121 @@
+[
+  {
+    "objectID": "feed.html",
+    "href": "feed.html",
+    "title": "Feed de entradas",
+    "section": "",
+    "text": "Archivo\n  Feed de entradas\n  Catálogo ordenado de proyectos, prácticas y aprendizajes académicos.\n\n\n\n\n  \n    Todos\n    \n    #Cloud\n    \n    #FullStack\n    \n    #Kotlin\n    \n    #Mobile\n    \n  \n\n  \n    \n    \n      Mobile / Kotlin\n      Mi experiencia aprendiendo a desarrollar apps móviles con Kotlin Compose\n      Construí Gym Tracker, una app Android para registrar series y estimar calorías, con MVVM, Jetpack Compose y StateFlow. Esto fue lo que me costó y lo que aprendí.\n      \n        05 oct 2026 · 6 minutos\n        Leer →\n      \n    \n    \n    \n      FullStack / Cloud\n      Mi experiencia desarrollando un proyecto integrador con HTML, CSS, JS, MariaDB y AWS\n      EduControl es un sistema web de gestión académica para una primaria. Lo hicimos en equipo de tres; yo trabajé backend, base de datos y despliegue en AWS.\n      \n        04 oct 2026 · 3 minutos\n        Leer →\n      \n    \n    \n  \n  No hay entradas en esta categoría todavía.\n  \n\nNo hay resultados"
+  },
+  {
+    "objectID": "posts/proyecto-integrador/index.html",
+    "href": "posts/proyecto-integrador/index.html",
+    "title": "Mi experiencia desarrollando un proyecto integrador con HTML, CSS, JS, MariaDB y AWS",
+    "section": "",
+    "text": "← Volver a posts\nEduControl es una aplicación web para llevar el control académico de una escuela primaria: alumnos, grupos, evaluaciones, calificaciones y reportes, todo en un solo lugar.\nFue nuestro proyecto integrador, que juntaba cuatro materias: la integradora, Programación Orientada a Objetos, Bases de Datos y Diseño de Software. Lo desarrollamos en un equipo de tres personas."
+  },
+  {
+    "objectID": "posts/proyecto-integrador/index.html#qué-hace-el-sistema",
+    "href": "posts/proyecto-integrador/index.html#qué-hace-el-sistema",
+    "title": "Mi experiencia desarrollando un proyecto integrador con HTML, CSS, JS, MariaDB y AWS",
+    "section": "Qué hace el sistema",
+    "text": "Qué hace el sistema\nTiene dos tipos de usuario, y cada uno ve cosas distintas:\n\n\n\n\n\n\n\n\n\nDocente\nDirector\n\n\n\n\nAlumnos\nSolo los de su grupo\nTodos los de la escuela\n\n\nCriterios de evaluación\nAjusta los porcentajes de su grupo\nConsulta los de cada docente\n\n\nRegistro diario\nCaptura tareas, exámenes, participación, disciplina y asistencia\nSin acceso\n\n\nCalificaciones\nLas de su grupo\nLas de cualquier grupo\n\n\nGrupos\nConsulta\nCrea, edita y asigna docentes\n\n\nReportes\nLos de su grupo\nLos de toda la institución\n\n\n\nEl trabajo del día a día lo hace el docente en el módulo de registro. Con esos datos el sistema calcula lo demás.\n\n\n\nDashboard del director: alumnos, grupos y rendimiento por campo formativo"
+  },
+  {
+    "objectID": "posts/proyecto-integrador/index.html#el-cierre-de-periodo",
+    "href": "posts/proyecto-integrador/index.html#el-cierre-de-periodo",
+    "title": "Mi experiencia desarrollando un proyecto integrador con HTML, CSS, JS, MariaDB y AWS",
+    "section": "El cierre de periodo",
+    "text": "El cierre de periodo\nCada docente define cuánto vale cada criterio, por ejemplo tareas 30 %, asistencia 10 %, participación 10 %, disciplina 10 % y examen 40 %. La suma tiene que dar 100 %.\nAl dar clic en “Fin de periodo”, el sistema toma todos los registros acumulados, aplica esa ponderación y genera las calificaciones finales por campo formativo. Tiene una regla: no deja cerrar el periodo si algún criterio se quedó sin registros.\nA partir de ahí las calificaciones ya no se capturan a mano. Solo se consultan, junto con las gráficas y estadísticas que salen de los mismos datos.\n\n\n\nGráfica de calificaciones por campo formativo"
+  },
+  {
+    "objectID": "posts/proyecto-integrador/index.html#con-qué-lo-construimos",
+    "href": "posts/proyecto-integrador/index.html#con-qué-lo-construimos",
+    "title": "Mi experiencia desarrollando un proyecto integrador con HTML, CSS, JS, MariaDB y AWS",
+    "section": "Con qué lo construimos",
+    "text": "Con qué lo construimos\n\n\n\nParte\nTecnología\n\n\n\n\nFrontend\nHTML, CSS y JavaScript\n\n\nAPI\nJava con Javalin\n\n\nBase de datos\nMariaDB\n\n\nNube\nAWS (EC2)"
+  },
+  {
+    "objectID": "posts/proyecto-integrador/index.html#mi-parte",
+    "href": "posts/proyecto-integrador/index.html#mi-parte",
+    "title": "Mi experiencia desarrollando un proyecto integrador con HTML, CSS, JS, MariaDB y AWS",
+    "section": "Mi parte",
+    "text": "Mi parte\nYo trabajé tres cosas:\n\nParte del backend: la API en Java con Javalin.\nLa base de datos en MariaDB.\nEl despliegue en AWS (EC2) de las tres piezas: frontend, backend y base de datos."
+  },
+  {
+    "objectID": "posts/proyecto-integrador/index.html#lo-que-más-nos-costó",
+    "href": "posts/proyecto-integrador/index.html#lo-que-más-nos-costó",
+    "title": "Mi experiencia desarrollando un proyecto integrador con HTML, CSS, JS, MariaDB y AWS",
+    "section": "Lo que más nos costó",
+    "text": "Lo que más nos costó\nConectar el backend con el frontend. Cada parte funcionaba por separado, pero hacer que el navegador hablara bien con la API fue lo que más tiempo nos llevó.\nPlanear la base de datos. La diseñamos antes de empezar, pero sobre la marcha nos dimos cuenta de que faltaban cosas: tablas, relaciones y campos que no habíamos previsto. Las fuimos resolviendo poco a poco, con ayuda y retroalimentación de los maestros que evaluaban el proyecto.\nLo que me llevo de ahí es que el primer diseño de una base de datos casi nunca es el definitivo, y que conviene validarlo contra las pantallas reales lo antes posible."
+  },
+  {
+    "objectID": "posts/proyecto-integrador/index.html#qué-le-cambiaría-hoy",
+    "href": "posts/proyecto-integrador/index.html#qué-le-cambiaría-hoy",
+    "title": "Mi experiencia desarrollando un proyecto integrador con HTML, CSS, JS, MariaDB y AWS",
+    "section": "Qué le cambiaría hoy",
+    "text": "Qué le cambiaría hoy\n\nQue sirva para cualquier escuela. EduControl se diseñó a la medida de una sola primaria. Hoy lo haría para que cualquier escuela pudiera usarlo.\nUna vista para supervisores. Solo tiene dos roles, director y docente. En una nueva versión agregaría un tercero para supervisores."
+  },
+  {
+    "objectID": "posts/kotlin-compose/index.html",
+    "href": "posts/kotlin-compose/index.html",
+    "title": "Mi experiencia aprendiendo a desarrollar apps móviles con Kotlin Compose",
+    "section": "",
+    "text": "← Volver a posts\nQuien entrena con pesas suele apuntar sus series de forma desordenada, o de plano las recuerda. Después, sacar cuentas como cuánto peso levantó en total o cuántas calorías gastó es tedioso si se hace a mano.\nDe ahí salió Gym Tracker, mi proyecto de la primera unidad de Desarrollo de Aplicaciones Móviles: una app Android que lleva el registro del entrenamiento y hace esas cuentas por uno. El código está en mi repositorio de GitHub."
+  },
+  {
+    "objectID": "posts/kotlin-compose/index.html#las-reglas-del-proyecto",
+    "href": "posts/kotlin-compose/index.html#las-reglas-del-proyecto",
+    "title": "Mi experiencia aprendiendo a desarrollar apps móviles con Kotlin Compose",
+    "section": "Las reglas del proyecto",
+    "text": "Las reglas del proyecto\nLa finalidad era practicar el patrón MVVM, pero con restricciones claras:\n\nSin base de datos ni otro tipo de persistencia.\nSin APIs ni internet.\nSin hardware del dispositivo (cámara, GPS, sensores).\n\nTodo tenía que vivir en memoria, dentro de un ViewModel. Por eso usé MVVM solo con dos capas:\n\nEl ViewModel guarda el estado, atiende los eventos, valida lo que escribe el usuario y hace todos los cálculos.\nLa View dibuja lo que recibe y avisa cuando el usuario hace algo. No toma decisiones."
+  },
+  {
+    "objectID": "posts/kotlin-compose/index.html#tres-pantallas-tres-fases",
+    "href": "posts/kotlin-compose/index.html#tres-pantallas-tres-fases",
+    "title": "Mi experiencia aprendiendo a desarrollar apps móviles con Kotlin Compose",
+    "section": "Tres pantallas, tres fases",
+    "text": "Tres pantallas, tres fases\nLa app pasa por tres fases, y cada una tiene su pantalla: configurar la rutina, entrenar y ver el resumen.\n\n\n\n\n\n\nConfiguración: rutina, peso corporal y ejercicios\n\n\n\n\n\n\n\nEntrenamiento: se registra cada serie\n\n\n\n\n\n\n\nResumen: volumen, series y calorías\n\n\n\n\n\nEn la primera se captura el nombre de la rutina, el peso corporal y los ejercicios. El botón de comenzar solo se enciende cuando hay nombre, peso y al menos un ejercicio.\nEn la segunda se ajusta el peso de 5 en 5 kg y las repeticiones de 1 en 1, y se registra cada serie. Cuando se completan las series de un ejercicio, la app pasa sola al siguiente.\nLa tercera muestra el volumen total, las series, las repeticiones y las calorías estimadas, con el desglose por ejercicio."
+  },
+  {
+    "objectID": "posts/kotlin-compose/index.html#cómo-viaja-un-evento",
+    "href": "posts/kotlin-compose/index.html#cómo-viaja-un-evento",
+    "title": "Mi experiencia aprendiendo a desarrollar apps móviles con Kotlin Compose",
+    "section": "Cómo viaja un evento",
+    "text": "Cómo viaja un evento\nEl estado es inmutable y se expone con un StateFlow. Cada vez que el usuario toca algo pasa lo mismo:\n\nLa vista llama a una función del ViewModel.\nEl ViewModel crea una copia nueva del estado con el cambio.\nEl StateFlow publica ese estado.\nCompose vuelve a dibujar solo lo que cambió.\n\n// Versión simplificada de la idea\nclass EntrenamientoViewModel : ViewModel() {\n\n    private val _estado = MutableStateFlow(EstadoEntrenamiento())\n    val estado: StateFlow&lt;EstadoEntrenamiento&gt; = _estado.asStateFlow()\n\n    fun alRegistrarSerie() {\n        _estado.update { actual -&gt;\n            actual.copy(/* nueva lista de series y valores recalculados */)\n        }\n    }\n}\nEl estado baja del ViewModel a la vista y los eventos suben de la vista al ViewModel. A eso se le llama flujo unidireccional de datos."
+  },
+  {
+    "objectID": "posts/kotlin-compose/index.html#lo-que-más-me-costó",
+    "href": "posts/kotlin-compose/index.html#lo-que-más-me-costó",
+    "title": "Mi experiencia aprendiendo a desarrollar apps móviles con Kotlin Compose",
+    "section": "Lo que más me costó",
+    "text": "Lo que más me costó\nConectar las pantallas. No sabía cómo pasar de una a otra sin enredar la lógica. Lo resolví con una clase enum que guarda en qué fase está la app. La vista solo revisa ese valor y muestra la pantalla que toca:\nenum class FaseEntrenamiento { CONFIGURANDO, ENTRENANDO, RESULTADOS }\n\n// En la vista principal (versión simplificada)\nwhen (estado.fase) {\n    FaseEntrenamiento.CONFIGURANDO -&gt; PantallaConfiguracion(/* estado y eventos */)\n    FaseEntrenamiento.ENTRENANDO   -&gt; PantallaEntrenamiento(/* estado y eventos */)\n    FaseEntrenamiento.RESULTADOS   -&gt; PantallaResumen(/* estado y eventos */)\n}\nLa lógica de los cálculos. La app calcula muchas cosas al mismo tiempo: volumen de la serie, progreso del ejercicio, progreso general, totales y calorías. Si un valor cambia, todos los que dependen de él tienen que actualizarse.\nReorganizar el código. Empecé con todo en una sola vista y un ViewModel. Después lo separé en tres pantallas, once componentes reutilizables y una clase de datos para el estado. Fue un cambio grande, pero el código quedó más ordenado. Ningún componente guarda estado propio: reciben los datos que muestran y avisan los eventos con funciones.\nLos errores que solo salen al probar. En orientación horizontal no se podía deslizar hasta los botones y un campo del diálogo se veía aplastado. Lo arreglé usando LazyColumn para que el contenido tuviera scroll."
+  },
+  {
+    "objectID": "posts/kotlin-compose/index.html#las-cuentas-volumen-y-calorías",
+    "href": "posts/kotlin-compose/index.html#las-cuentas-volumen-y-calorías",
+    "title": "Mi experiencia aprendiendo a desarrollar apps móviles con Kotlin Compose",
+    "section": "Las cuentas: volumen y calorías",
+    "text": "Las cuentas: volumen y calorías\nEl volumen de una serie es el peso por las repeticiones. Por ejemplo, 30 kg × 8 repeticiones son 240 kg.\nLas calorías se estiman con el método de los equivalentes metabólicos (MET), que indica cuántas veces más energía gasta el cuerpo en una actividad que en reposo:\n\\[\n\\text{kcal} = \\text{MET} \\times \\text{peso corporal (kg)} \\times \\frac{\\text{minutos}}{60}\n\\]\nUsé un MET de 5.0, un valor intermedio para una sesión de pesas según el Compendium of Physical Activities. Como la app no tiene cronómetro, los minutos se estiman como series completadas × 4.\nCon 80 kg de peso corporal y 16 series: 16 × 4 = 64 minutos, y 5.0 × 80 × (64 ÷ 60) da 427 kcal.\nEs una estimación. No mide el tiempo real ni la intensidad, así que el número es solo una referencia."
+  },
+  {
+    "objectID": "posts/kotlin-compose/index.html#lo-que-aprendí-sobre-cómo-se-construye-una-app",
+    "href": "posts/kotlin-compose/index.html#lo-que-aprendí-sobre-cómo-se-construye-una-app",
+    "title": "Mi experiencia aprendiendo a desarrollar apps móviles con Kotlin Compose",
+    "section": "Lo que aprendí sobre cómo se construye una app",
+    "text": "Lo que aprendí sobre cómo se construye una app\nAdemás de Compose, entendí qué pasa desde que escribo código hasta que la app llega al teléfono:\n\nEl código Kotlin se compila a bytecode.\nD8 convierte ese bytecode al formato DEX, que es el que ejecuta Android.\nR8 entra en las versiones de lanzamiento: elimina el código que no se usa, lo optimiza y lo ofusca para que la app pese menos.\nAl final todo se empaqueta y se firma.\n\nTambién me quedó clara la diferencia entre los dos formatos de salida:\n\n\n\n\n\n\n\nFormato\nPara qué sirve\n\n\n\n\nAPK\nEs el archivo que se instala directo en el teléfono.\n\n\nAAB\nEs el formato para publicar en Google Play, que con él genera un APK a la medida de cada dispositivo. No se instala directamente."
+  },
+  {
+    "objectID": "posts/kotlin-compose/index.html#qué-le-cambiaría-hoy",
+    "href": "posts/kotlin-compose/index.html#qué-le-cambiaría-hoy",
+    "title": "Mi experiencia aprendiendo a desarrollar apps móviles con Kotlin Compose",
+    "section": "Qué le cambiaría hoy",
+    "text": "Qué le cambiaría hoy\nEl proyecto estaba enfocado en aprender a separar responsabilidades entre View y ViewModel, no en sacar una app al mercado. Por eso le falta:\n\nUna interfaz más trabajada y con animaciones.\nGuardar el historial de entrenamientos en una base de datos local.\nUn cronómetro para medir el tiempo real y calcular mejor las calorías.\nGuardar y reutilizar rutinas.\nEjercicios y grupos musculares predefinidos para armar la rutina más rápido.\n\nAun así, es el proyecto con el que por fin entendí cómo funciona una app por dentro."
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Aprendizaje y Código",
+    "section": "",
+    "text": "Bitácora dev\n  Aprendizaje y Código\n  Espacio para documentar mi experiencia en desarrollo web, móvil e infraestructura.\n\n\n\n\n  2 entradas · 4 categorías\n\n  \n    \n    /\n  \n\n  \n  \n    \n      \n      \n      \n    \n    \n      Destacado\n      Mi experiencia aprendiendo a desarrollar apps móviles con Kotlin Compose\n      Construí Gym Tracker, una app Android para registrar series y estimar calorías, con MVVM, Jetpack Compose y StateFlow. Esto fue lo que me costó y lo que aprendí.\n      \n        05 oct 2026 · 6 minutos\n        Leer post →\n      \n    \n  \n  \n\n  \n    #Todos\n    \n    #Cloud\n    \n    #FullStack\n    \n    #Kotlin\n    \n    #Mobile\n    \n  \n\n  \n  \n    2026\n    \n    \n      04 oct\n      \n        Mi experiencia desarrollando un proyecto integrador con HTML, CSS, JS, MariaDB y AWS\n        EduControl es un sistema web de gestión académica para una primaria. Lo hicimos en equipo de tres; yo trabajé backend, base de datos y despliegue en AWS.\n        \n          FullStackCloud\n        \n      \n      →\n    \n    \n  \n  \n\n  No hay entradas con ese filtro. Prueba otra categoría o borra la búsqueda.\n  Ver todas las entradas\n\nNo hay resultados"
+  }
+]

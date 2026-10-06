@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://manu-09-web.github.io/MiWebQuarto/sitemap.xml

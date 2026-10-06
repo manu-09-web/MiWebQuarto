@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>manu.dev</title>
+<link>https://manu-09-web.github.io/MiWebQuarto/blog.html</link>
+<atom:link href="https://manu-09-web.github.io/MiWebQuarto/blog.xml" rel="self" type="application/rss+xml"/>
+<description>Entradas nuevas del blog de Manuel Herrera</description>
+<image>
+<url>https://manu-09-web.github.io/MiWebQuarto/assets/og-cover.png</url>
+<title>manu.dev</title>
+<link>https://manu-09-web.github.io/MiWebQuarto/blog.html</link>
+<height>76</height>
+<width>144</width>
+</image>
+<generator>quarto-1.10.18</generator>
+<lastBuildDate>Mon, 05 Oct 2026 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Mi experiencia aprendiendo a desarrollar apps móviles con Kotlin Compose</title>
+  <dc:creator>Manuel Herrera</dc:creator>
+  <link>https://manu-09-web.github.io/MiWebQuarto/posts/kotlin-compose/</link>
+  <description><![CDATA[ 
+<a class="md-back" href="../../blog.html">← Volver a posts</a>
+
+
+
+
+<p>Quien entrena con pesas suele apuntar sus series de forma desordenada, o de plano las recuerda. Después, sacar cuentas como cuánto peso levantó en total o cuántas calorías gastó es tedioso si se hace a mano.</p>
+<p>De ahí salió <strong>Gym Tracker</strong>, mi proyecto de la primera unidad de Desarrollo de Aplicaciones Móviles: una app Android que lleva el registro del entrenamiento y hace esas cuentas por uno. El código está en <a href="https://github.com/manu-09-web/GymAppkt">mi repositorio de GitHub</a>.</p>
+<section id="las-reglas-del-proyecto" class="level2">
+<h2 class="anchored" data-anchor-id="las-reglas-del-proyecto">Las reglas del proyecto</h2>
+<p>La finalidad era practicar el patrón MVVM, pero con restricciones claras:</p>
+<ul>
+<li>Sin base de datos ni otro tipo de persistencia.</li>
+<li>Sin APIs ni internet.</li>
+<li>Sin hardware del dispositivo (cámara, GPS, sensores).</li>
+</ul>
+<p>Todo tenía que vivir en memoria, dentro de un ViewModel. Por eso usé MVVM solo con dos capas:</p>
+<ul>
+<li>El <strong>ViewModel</strong> guarda el estado, atiende los eventos, valida lo que escribe el usuario y hace todos los cálculos.</li>
+<li>La <strong>View</strong> dibuja lo que recibe y avisa cuando el usuario hace algo. No toma decisiones.</li>
+</ul>
+</section>
+<section id="tres-pantallas-tres-fases" class="level2">
+<h2 class="anchored" data-anchor-id="tres-pantallas-tres-fases">Tres pantallas, tres fases</h2>
+<p>La app pasa por tres fases, y cada una tiene su pantalla: configurar la rutina, entrenar y ver el resumen.</p>
+<div class="quarto-layout-panel" data-layout-ncol="3">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://manu-09-web.github.io/MiWebQuarto/posts/kotlin-compose/configuracion.jpg" class="img-fluid figure-img"></p>
+<figcaption>Configuración: rutina, peso corporal y ejercicios</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://manu-09-web.github.io/MiWebQuarto/posts/kotlin-compose/entrenamiento.jpg" class="img-fluid figure-img"></p>
+<figcaption>Entrenamiento: se registra cada serie</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://manu-09-web.github.io/MiWebQuarto/posts/kotlin-compose/resumen.jpg" class="img-fluid figure-img"></p>
+<figcaption>Resumen: volumen, series y calorías</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>En la primera se captura el nombre de la rutina, el peso corporal y los ejercicios. El botón de comenzar solo se enciende cuando hay nombre, peso y al menos un ejercicio.</p>
+<p>En la segunda se ajusta el peso de 5 en 5 kg y las repeticiones de 1 en 1, y se registra cada serie. Cuando se completan las series de un ejercicio, la app pasa sola al siguiente.</p>
+<p>La tercera muestra el volumen total, las series, las repeticiones y las calorías estimadas, con el desglose por ejercicio.</p>
+</section>
+<section id="cómo-viaja-un-evento" class="level2">
+<h2 class="anchored" data-anchor-id="cómo-viaja-un-evento">Cómo viaja un evento</h2>
+<p>El estado es inmutable y se expone con un <code>StateFlow</code>. Cada vez que el usuario toca algo pasa lo mismo:</p>
+<ol type="1">
+<li>La vista llama a una función del ViewModel.</li>
+<li>El ViewModel crea una copia nueva del estado con el cambio.</li>
+<li>El <code>StateFlow</code> publica ese estado.</li>
+<li>Compose vuelve a dibujar solo lo que cambió.</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode kotlin code-with-copy"><code class="sourceCode kotlin"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">// Versión simplificada de la idea</span></span>
+<span id="cb1-2"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> EntrenamientoViewModel <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">ViewModel</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">()</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb1-3"></span>
+<span id="cb1-4">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">private</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">val</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">_estado</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> MutableStateFlow<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span>EstadoEntrenamiento<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">())</span></span>
+<span id="cb1-5">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">val</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">estado</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> StateFlow<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;</span>EstadoEntrenamiento<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> _estado<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>asStateFlow<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">()</span></span>
+<span id="cb1-6"></span>
+<span id="cb1-7">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">fun</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">alRegistrarSerie</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">()</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb1-8">        _estado<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>update <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span> actual <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span></span>
+<span id="cb1-9">            actual<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>copy<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/* nueva lista de series y valores recalculados */</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span id="cb1-10">        <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span id="cb1-11">    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span id="cb1-12"><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span></span></code></pre></div></div>
+<p>El estado baja del ViewModel a la vista y los eventos suben de la vista al ViewModel. A eso se le llama flujo unidireccional de datos.</p>
+</section>
+<section id="lo-que-más-me-costó" class="level2">
+<h2 class="anchored" data-anchor-id="lo-que-más-me-costó">Lo que más me costó</h2>
+<p><strong>Conectar las pantallas.</strong> No sabía cómo pasar de una a otra sin enredar la lógica. Lo resolví con una clase <code>enum</code> que guarda en qué fase está la app. La vista solo revisa ese valor y muestra la pantalla que toca:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode kotlin code-with-copy"><code class="sourceCode kotlin"><span id="cb2-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">enum</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> FaseEntrenamiento <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span> CONFIGURANDO<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> ENTRENANDO<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> RESULTADOS <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span id="cb2-2"></span>
+<span id="cb2-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">// En la vista principal (versión simplificada)</span></span>
+<span id="cb2-4"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">when</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span>estado<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>fase<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb2-5">    FaseEntrenamiento<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>CONFIGURANDO <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> PantallaConfiguracion<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/* estado y eventos */</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span id="cb2-6">    FaseEntrenamiento<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>ENTRENANDO   <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> PantallaEntrenamiento<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/* estado y eventos */</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span id="cb2-7">    FaseEntrenamiento<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>RESULTADOS   <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> PantallaResumen<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/* estado y eventos */</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span id="cb2-8"><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span></span></code></pre></div></div>
+<p><strong>La lógica de los cálculos.</strong> La app calcula muchas cosas al mismo tiempo: volumen de la serie, progreso del ejercicio, progreso general, totales y calorías. Si un valor cambia, todos los que dependen de él tienen que actualizarse.</p>
+<p><strong>Reorganizar el código.</strong> Empecé con todo en una sola vista y un ViewModel. Después lo separé en tres pantallas, once componentes reutilizables y una clase de datos para el estado. Fue un cambio grande, pero el código quedó más ordenado. Ningún componente guarda estado propio: reciben los datos que muestran y avisan los eventos con funciones.</p>
+<p><strong>Los errores que solo salen al probar.</strong> En orientación horizontal no se podía deslizar hasta los botones y un campo del diálogo se veía aplastado. Lo arreglé usando <code>LazyColumn</code> para que el contenido tuviera scroll.</p>
+</section>
+<section id="las-cuentas-volumen-y-calorías" class="level2">
+<h2 class="anchored" data-anchor-id="las-cuentas-volumen-y-calorías">Las cuentas: volumen y calorías</h2>
+<p>El volumen de una serie es el peso por las repeticiones. Por ejemplo, 30 kg × 8 repeticiones son 240 kg.</p>
+<p>Las calorías se estiman con el método de los equivalentes metabólicos (MET), que indica cuántas veces más energía gasta el cuerpo en una actividad que en reposo:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%5Ctext%7Bkcal%7D%20=%20%5Ctext%7BMET%7D%20%5Ctimes%20%5Ctext%7Bpeso%20corporal%20(kg)%7D%20%5Ctimes%20%5Cfrac%7B%5Ctext%7Bminutos%7D%7D%7B60%7D%0A"></p>
+<p>Usé un MET de 5.0, un valor intermedio para una sesión de pesas según el <a href="https://pacompendium.com/conditioning-exercise">Compendium of Physical Activities</a>. Como la app no tiene cronómetro, los minutos se estiman como series completadas × 4.</p>
+<p>Con 80 kg de peso corporal y 16 series: 16 × 4 = 64 minutos, y 5.0 × 80 × (64 ÷ 60) da 427 kcal.</p>
+<p>Es una estimación. No mide el tiempo real ni la intensidad, así que el número es solo una referencia.</p>
+</section>
+<section id="lo-que-aprendí-sobre-cómo-se-construye-una-app" class="level2">
+<h2 class="anchored" data-anchor-id="lo-que-aprendí-sobre-cómo-se-construye-una-app">Lo que aprendí sobre cómo se construye una app</h2>
+<p>Además de Compose, entendí qué pasa desde que escribo código hasta que la app llega al teléfono:</p>
+<ul>
+<li>El código Kotlin se compila a bytecode.</li>
+<li><strong>D8</strong> convierte ese bytecode al formato DEX, que es el que ejecuta Android.</li>
+<li><strong>R8</strong> entra en las versiones de lanzamiento: elimina el código que no se usa, lo optimiza y lo ofusca para que la app pese menos.</li>
+<li>Al final todo se empaqueta y se firma.</li>
+</ul>
+<p>También me quedó clara la diferencia entre los dos formatos de salida:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 36%">
+<col style="width: 64%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Formato</th>
+<th>Para qué sirve</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>APK</strong></td>
+<td>Es el archivo que se instala directo en el teléfono.</td>
+</tr>
+<tr class="even">
+<td><strong>AAB</strong></td>
+<td>Es el formato para publicar en Google Play, que con él genera un APK a la medida de cada dispositivo. No se instala directamente.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="qué-le-cambiaría-hoy" class="level2">
+<h2 class="anchored" data-anchor-id="qué-le-cambiaría-hoy">Qué le cambiaría hoy</h2>
+<p>El proyecto estaba enfocado en aprender a separar responsabilidades entre View y ViewModel, no en sacar una app al mercado. Por eso le falta:</p>
+<ul>
+<li>Una interfaz más trabajada y con animaciones.</li>
+<li>Guardar el historial de entrenamientos en una base de datos local.</li>
+<li>Un cronómetro para medir el tiempo real y calcular mejor las calorías.</li>
+<li>Guardar y reutilizar rutinas.</li>
+<li>Ejercicios y grupos musculares predefinidos para armar la rutina más rápido.</li>
+</ul>
+<p>Aun así, es el proyecto con el que por fin entendí cómo funciona una app por dentro.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>Mobile</category>
+  <category>Kotlin</category>
+  <guid>https://manu-09-web.github.io/MiWebQuarto/posts/kotlin-compose/</guid>
+  <pubDate>Mon, 05 Oct 2026 00:00:00 GMT</pubDate>
+  <media:content url="https://manu-09-web.github.io/MiWebQuarto/posts/kotlin-compose/portada.jpg" medium="image" type="image/jpeg"/>
+</item>
+<item>
+  <title>Mi experiencia desarrollando un proyecto integrador con HTML, CSS, JS, MariaDB y AWS</title>
+  <dc:creator>Manuel Herrera</dc:creator>
+  <link>https://manu-09-web.github.io/MiWebQuarto/posts/proyecto-integrador/</link>
+  <description><![CDATA[ 
+<a class="md-back" href="../../blog.html">← Volver a posts</a>
+
+
+
+
+<p><strong>EduControl</strong> es una aplicación web para llevar el control académico de una escuela primaria: alumnos, grupos, evaluaciones, calificaciones y reportes, todo en un solo lugar.</p>
+<p>Fue nuestro proyecto integrador, que juntaba cuatro materias: la integradora, Programación Orientada a Objetos, Bases de Datos y Diseño de Software. Lo desarrollamos en un equipo de tres personas.</p>
+<section id="qué-hace-el-sistema" class="level2">
+<h2 class="anchored" data-anchor-id="qué-hace-el-sistema">Qué hace el sistema</h2>
+<p>Tiene dos tipos de usuario, y cada uno ve cosas distintas:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Docente</th>
+<th>Director</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Alumnos</strong></td>
+<td>Solo los de su grupo</td>
+<td>Todos los de la escuela</td>
+</tr>
+<tr class="even">
+<td><strong>Criterios de evaluación</strong></td>
+<td>Ajusta los porcentajes de su grupo</td>
+<td>Consulta los de cada docente</td>
+</tr>
+<tr class="odd">
+<td><strong>Registro diario</strong></td>
+<td>Captura tareas, exámenes, participación, disciplina y asistencia</td>
+<td>Sin acceso</td>
+</tr>
+<tr class="even">
+<td><strong>Calificaciones</strong></td>
+<td>Las de su grupo</td>
+<td>Las de cualquier grupo</td>
+</tr>
+<tr class="odd">
+<td><strong>Grupos</strong></td>
+<td>Consulta</td>
+<td>Crea, edita y asigna docentes</td>
+</tr>
+<tr class="even">
+<td><strong>Reportes</strong></td>
+<td>Los de su grupo</td>
+<td>Los de toda la institución</td>
+</tr>
+</tbody>
+</table>
+<p>El trabajo del día a día lo hace el docente en el módulo de registro. Con esos datos el sistema calcula lo demás.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://manu-09-web.github.io/MiWebQuarto/posts/proyecto-integrador/dashboard.jpg" class="img-fluid figure-img"></p>
+<figcaption>Dashboard del director: alumnos, grupos y rendimiento por campo formativo</figcaption>
+</figure>
+</div>
+</section>
+<section id="el-cierre-de-periodo" class="level2">
+<h2 class="anchored" data-anchor-id="el-cierre-de-periodo">El cierre de periodo</h2>
+<p>Cada docente define cuánto vale cada criterio, por ejemplo tareas 30 %, asistencia 10 %, participación 10 %, disciplina 10 % y examen 40 %. La suma tiene que dar 100 %.</p>
+<p>Al dar clic en “Fin de periodo”, el sistema toma todos los registros acumulados, aplica esa ponderación y genera las calificaciones finales por campo formativo. Tiene una regla: no deja cerrar el periodo si algún criterio se quedó sin registros.</p>
+<p>A partir de ahí las calificaciones ya no se capturan a mano. Solo se consultan, junto con las gráficas y estadísticas que salen de los mismos datos.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://manu-09-web.github.io/MiWebQuarto/posts/proyecto-integrador/graficas.jpg" class="img-fluid figure-img"></p>
+<figcaption>Gráfica de calificaciones por campo formativo</figcaption>
+</figure>
+</div>
+</section>
+<section id="con-qué-lo-construimos" class="level2">
+<h2 class="anchored" data-anchor-id="con-qué-lo-construimos">Con qué lo construimos</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parte</th>
+<th>Tecnología</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Frontend</td>
+<td>HTML, CSS y JavaScript</td>
+</tr>
+<tr class="even">
+<td>API</td>
+<td>Java con Javalin</td>
+</tr>
+<tr class="odd">
+<td>Base de datos</td>
+<td>MariaDB</td>
+</tr>
+<tr class="even">
+<td>Nube</td>
+<td>AWS (EC2)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mi-parte" class="level2">
+<h2 class="anchored" data-anchor-id="mi-parte">Mi parte</h2>
+<p>Yo trabajé tres cosas:</p>
+<ul>
+<li><strong>Parte del backend</strong>: la API en Java con Javalin.</li>
+<li><strong>La base de datos</strong> en MariaDB.</li>
+<li><strong>El despliegue en AWS (EC2)</strong> de las tres piezas: frontend, backend y base de datos.</li>
+</ul>
+</section>
+<section id="lo-que-más-nos-costó" class="level2">
+<h2 class="anchored" data-anchor-id="lo-que-más-nos-costó">Lo que más nos costó</h2>
+<p><strong>Conectar el backend con el frontend.</strong> Cada parte funcionaba por separado, pero hacer que el navegador hablara bien con la API fue lo que más tiempo nos llevó.</p>
+<p><strong>Planear la base de datos.</strong> La diseñamos antes de empezar, pero sobre la marcha nos dimos cuenta de que faltaban cosas: tablas, relaciones y campos que no habíamos previsto. Las fuimos resolviendo poco a poco, con ayuda y retroalimentación de los maestros que evaluaban el proyecto.</p>
+<p>Lo que me llevo de ahí es que el primer diseño de una base de datos casi nunca es el definitivo, y que conviene validarlo contra las pantallas reales lo antes posible.</p>
+</section>
+<section id="qué-le-cambiaría-hoy" class="level2">
+<h2 class="anchored" data-anchor-id="qué-le-cambiaría-hoy">Qué le cambiaría hoy</h2>
+<ul>
+<li><strong>Que sirva para cualquier escuela.</strong> EduControl se diseñó a la medida de una sola primaria. Hoy lo haría para que cualquier escuela pudiera usarlo.</li>
+<li><strong>Una vista para supervisores.</strong> Solo tiene dos roles, director y docente. En una nueva versión agregaría un tercero para supervisores.</li>
+</ul>
+
+
+</section>
+
+ ]]></description>
+  <category>FullStack</category>
+  <category>Cloud</category>
+  <guid>https://manu-09-web.github.io/MiWebQuarto/posts/proyecto-integrador/</guid>
+  <pubDate>Sun, 04 Oct 2026 00:00:00 GMT</pubDate>
+  <media:content url="https://manu-09-web.github.io/MiWebQuarto/posts/proyecto-integrador/portada.jpg" medium="image" type="image/jpeg"/>
+</item>
+</channel>
+</rss>

@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Manuel Herrera">
+<meta name="dcterms.date" content="2026-10-05">
+<meta name="description" content="Construí Gym Tracker, una app Android para registrar series y estimar calorías, con MVVM, Jetpack Compose y StateFlow. Esto fue lo que me costó y lo que aprendí.">
+
+<title>Mi experiencia aprendiendo a desarrollar apps móviles con Kotlin Compose – manu.dev</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../assets/favicon.svg" rel="icon" type="image/svg+xml">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-235dd7208b0ab31445e75e432a8fe391.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-00511cd0a22a3a9f95b2553935070245.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<meta name="author" content="Manuel Herrera">
+<meta name="theme-color" content="#000020">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="Mi experiencia aprendiendo a desarrollar apps móviles con Kotlin Compose – manu.dev">
+<meta property="og:description" content="Construí Gym Tracker, una app Android para registrar series y estimar calorías, con MVVM, Jetpack Compose y StateFlow. Esto fue lo que me costó y lo que aprendí.">
+<meta property="og:image" content="https://manu-09-web.github.io/MiWebQuarto/posts/kotlin-compose/portada.jpg">
+<meta property="og:site_name" content="manu.dev">
+<meta property="og:locale" content="es_MX">
+<meta property="og:image:alt" content="Las tres pantallas de Gym Tracker: configuración, entrenamiento en curso y resumen">
+<meta name="twitter:title" content="Mi experiencia aprendiendo a desarrollar apps móviles con Kotlin Compose – manu.dev">
+<meta name="twitter:description" content="Construí Gym Tracker, una app Android para registrar series y estimar calorías, con MVVM, Jetpack Compose y StateFlow. Esto fue lo que me costó y lo que aprendí.">
+<meta name="twitter:image" content="https://manu-09-web.github.io/MiWebQuarto/posts/kotlin-compose/portada.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image:alt" content="Las tres pantallas de Gym Tracker: configuración, entrenamiento en curso y resumen">
+<link rel="canonical" href="https://manu-09-web.github.io/MiWebQuarto/posts/kotlin-compose/">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-md " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">manu.dev</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../feed.html"> 
+<span class="menu-text">Feed</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/manu-09-web"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../blog.xml"> <i class="bi bi-rss" role="img" aria-label="RSS">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+<a class="md-back" href="../../blog.html">← Volver a posts</a>
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Mi experiencia aprendiendo a desarrollar apps móviles con Kotlin Compose</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Mobile</div>
+    <div class="quarto-category">Kotlin</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Construí Gym Tracker, una app Android para registrar series y estimar calorías, con MVVM, Jetpack Compose y StateFlow. Esto fue lo que me costó y lo que aprendí.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor/a</div>
+    <div class="quarto-title-meta-contents">
+             <p>Manuel Herrera </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Fecha de publicación</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">05 oct 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+<nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">En este post</h2>
+   
+  <ul>
+  <li><a href="#las-reglas-del-proyecto" id="toc-las-reglas-del-proyecto">Las reglas del proyecto</a></li>
+  <li><a href="#tres-pantallas-tres-fases" id="toc-tres-pantallas-tres-fases">Tres pantallas, tres fases</a></li>
+  <li><a href="#cómo-viaja-un-evento" id="toc-cómo-viaja-un-evento">Cómo viaja un evento</a></li>
+  <li><a href="#lo-que-más-me-costó" id="toc-lo-que-más-me-costó">Lo que más me costó</a></li>
+  <li><a href="#las-cuentas-volumen-y-calorías" id="toc-las-cuentas-volumen-y-calorías">Las cuentas: volumen y calorías</a></li>
+  <li><a href="#lo-que-aprendí-sobre-cómo-se-construye-una-app" id="toc-lo-que-aprendí-sobre-cómo-se-construye-una-app">Lo que aprendí sobre cómo se construye una app</a></li>
+  <li><a href="#qué-le-cambiaría-hoy" id="toc-qué-le-cambiaría-hoy">Qué le cambiaría hoy</a></li>
+  </ul>
+</nav>
+<p>Quien entrena con pesas suele apuntar sus series de forma desordenada, o de plano las recuerda. Después, sacar cuentas como cuánto peso levantó en total o cuántas calorías gastó es tedioso si se hace a mano.</p>
+<p>De ahí salió <strong>Gym Tracker</strong>, mi proyecto de la primera unidad de Desarrollo de Aplicaciones Móviles: una app Android que lleva el registro del entrenamiento y hace esas cuentas por uno. El código está en <a href="https://github.com/manu-09-web/GymAppkt">mi repositorio de GitHub</a>.</p>
+<section id="las-reglas-del-proyecto" class="level2">
+<h2 class="anchored" data-anchor-id="las-reglas-del-proyecto">Las reglas del proyecto</h2>
+<p>La finalidad era practicar el patrón MVVM, pero con restricciones claras:</p>
+<ul>
+<li>Sin base de datos ni otro tipo de persistencia.</li>
+<li>Sin APIs ni internet.</li>
+<li>Sin hardware del dispositivo (cámara, GPS, sensores).</li>
+</ul>
+<p>Todo tenía que vivir en memoria, dentro de un ViewModel. Por eso usé MVVM solo con dos capas:</p>
+<ul>
+<li>El <strong>ViewModel</strong> guarda el estado, atiende los eventos, valida lo que escribe el usuario y hace todos los cálculos.</li>
+<li>La <strong>View</strong> dibuja lo que recibe y avisa cuando el usuario hace algo. No toma decisiones.</li>
+</ul>
+</section>
+<section id="tres-pantallas-tres-fases" class="level2">
+<h2 class="anchored" data-anchor-id="tres-pantallas-tres-fases">Tres pantallas, tres fases</h2>
+<p>La app pasa por tres fases, y cada una tiene su pantalla: configurar la rutina, entrenar y ver el resumen.</p>
+<div class="quarto-layout-panel" data-layout-ncol="3">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="configuracion.jpg" class="img-fluid figure-img"></p>
+<figcaption>Configuración: rutina, peso corporal y ejercicios</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="entrenamiento.jpg" class="img-fluid figure-img"></p>
+<figcaption>Entrenamiento: se registra cada serie</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="resumen.jpg" class="img-fluid figure-img"></p>
+<figcaption>Resumen: volumen, series y calorías</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>En la primera se captura el nombre de la rutina, el peso corporal y los ejercicios. El botón de comenzar solo se enciende cuando hay nombre, peso y al menos un ejercicio.</p>
+<p>En la segunda se ajusta el peso de 5 en 5 kg y las repeticiones de 1 en 1, y se registra cada serie. Cuando se completan las series de un ejercicio, la app pasa sola al siguiente.</p>
+<p>La tercera muestra el volumen total, las series, las repeticiones y las calorías estimadas, con el desglose por ejercicio.</p>
+</section>
+<section id="cómo-viaja-un-evento" class="level2">
+<h2 class="anchored" data-anchor-id="cómo-viaja-un-evento">Cómo viaja un evento</h2>
+<p>El estado es inmutable y se expone con un <code>StateFlow</code>. Cada vez que el usuario toca algo pasa lo mismo:</p>
+<ol type="1">
+<li>La vista llama a una función del ViewModel.</li>
+<li>El ViewModel crea una copia nueva del estado con el cambio.</li>
+<li>El <code>StateFlow</code> publica ese estado.</li>
+<li>Compose vuelve a dibujar solo lo que cambió.</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode kotlin code-with-copy"><code class="sourceCode kotlin"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Versión simplificada de la idea</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> EntrenamientoViewModel <span class="op">:</span> <span class="dt">ViewModel</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="kw">val</span> <span class="va">_estado</span> <span class="op">=</span> MutableStateFlow<span class="op">(</span>EstadoEntrenamiento<span class="op">())</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">val</span> <span class="va">estado</span><span class="op">:</span> StateFlow<span class="op">&lt;</span>EstadoEntrenamiento<span class="op">&gt;</span> <span class="op">=</span> _estado<span class="op">.</span>asStateFlow<span class="op">()</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">fun</span> <span class="fu">alRegistrarSerie</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        _estado<span class="op">.</span>update <span class="op">{</span> actual <span class="op">-&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>            actual<span class="op">.</span>copy<span class="op">(</span><span class="co">/* nueva lista de series y valores recalculados */</span><span class="op">)</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El estado baja del ViewModel a la vista y los eventos suben de la vista al ViewModel. A eso se le llama flujo unidireccional de datos.</p>
+</section>
+<section id="lo-que-más-me-costó" class="level2">
+<h2 class="anchored" data-anchor-id="lo-que-más-me-costó">Lo que más me costó</h2>
+<p><strong>Conectar las pantallas.</strong> No sabía cómo pasar de una a otra sin enredar la lógica. Lo resolví con una clase <code>enum</code> que guarda en qué fase está la app. La vista solo revisa ese valor y muestra la pantalla que toca:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode kotlin code-with-copy"><code class="sourceCode kotlin"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">enum</span> <span class="kw">class</span> FaseEntrenamiento <span class="op">{</span> CONFIGURANDO<span class="op">,</span> ENTRENANDO<span class="op">,</span> RESULTADOS <span class="op">}</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">// En la vista principal (versión simplificada)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">when</span> <span class="op">(</span>estado<span class="op">.</span>fase<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    FaseEntrenamiento<span class="op">.</span>CONFIGURANDO <span class="op">-&gt;</span> PantallaConfiguracion<span class="op">(</span><span class="co">/* estado y eventos */</span><span class="op">)</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    FaseEntrenamiento<span class="op">.</span>ENTRENANDO   <span class="op">-&gt;</span> PantallaEntrenamiento<span class="op">(</span><span class="co">/* estado y eventos */</span><span class="op">)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    FaseEntrenamiento<span class="op">.</span>RESULTADOS   <span class="op">-&gt;</span> PantallaResumen<span class="op">(</span><span class="co">/* estado y eventos */</span><span class="op">)</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>La lógica de los cálculos.</strong> La app calcula muchas cosas al mismo tiempo: volumen de la serie, progreso del ejercicio, progreso general, totales y calorías. Si un valor cambia, todos los que dependen de él tienen que actualizarse.</p>
+<p><strong>Reorganizar el código.</strong> Empecé con todo en una sola vista y un ViewModel. Después lo separé en tres pantallas, once componentes reutilizables y una clase de datos para el estado. Fue un cambio grande, pero el código quedó más ordenado. Ningún componente guarda estado propio: reciben los datos que muestran y avisan los eventos con funciones.</p>
+<p><strong>Los errores que solo salen al probar.</strong> En orientación horizontal no se podía deslizar hasta los botones y un campo del diálogo se veía aplastado. Lo arreglé usando <code>LazyColumn</code> para que el contenido tuviera scroll.</p>
+</section>
+<section id="las-cuentas-volumen-y-calorías" class="level2">
+<h2 class="anchored" data-anchor-id="las-cuentas-volumen-y-calorías">Las cuentas: volumen y calorías</h2>
+<p>El volumen de una serie es el peso por las repeticiones. Por ejemplo, 30 kg × 8 repeticiones son 240 kg.</p>
+<p>Las calorías se estiman con el método de los equivalentes metabólicos (MET), que indica cuántas veces más energía gasta el cuerpo en una actividad que en reposo:</p>
+<p><span class="math display">\[
+\text{kcal} = \text{MET} \times \text{peso corporal (kg)} \times \frac{\text{minutos}}{60}
+\]</span></p>
+<p>Usé un MET de 5.0, un valor intermedio para una sesión de pesas según el <a href="https://pacompendium.com/conditioning-exercise">Compendium of Physical Activities</a>. Como la app no tiene cronómetro, los minutos se estiman como series completadas × 4.</p>
+<p>Con 80 kg de peso corporal y 16 series: 16 × 4 = 64 minutos, y 5.0 × 80 × (64 ÷ 60) da 427 kcal.</p>
+<p>Es una estimación. No mide el tiempo real ni la intensidad, así que el número es solo una referencia.</p>
+</section>
+<section id="lo-que-aprendí-sobre-cómo-se-construye-una-app" class="level2">
+<h2 class="anchored" data-anchor-id="lo-que-aprendí-sobre-cómo-se-construye-una-app">Lo que aprendí sobre cómo se construye una app</h2>
+<p>Además de Compose, entendí qué pasa desde que escribo código hasta que la app llega al teléfono:</p>
+<ul>
+<li>El código Kotlin se compila a bytecode.</li>
+<li><strong>D8</strong> convierte ese bytecode al formato DEX, que es el que ejecuta Android.</li>
+<li><strong>R8</strong> entra en las versiones de lanzamiento: elimina el código que no se usa, lo optimiza y lo ofusca para que la app pese menos.</li>
+<li>Al final todo se empaqueta y se firma.</li>
+</ul>
+<p>También me quedó clara la diferencia entre los dos formatos de salida:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 36%">
+<col style="width: 64%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Formato</th>
+<th>Para qué sirve</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>APK</strong></td>
+<td>Es el archivo que se instala directo en el teléfono.</td>
+</tr>
+<tr class="even">
+<td><strong>AAB</strong></td>
+<td>Es el formato para publicar en Google Play, que con él genera un APK a la medida de cada dispositivo. No se instala directamente.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="qué-le-cambiaría-hoy" class="level2">
+<h2 class="anchored" data-anchor-id="qué-le-cambiaría-hoy">Qué le cambiaría hoy</h2>
+<p>El proyecto estaba enfocado en aprender a separar responsabilidades entre View y ViewModel, no en sacar una app al mercado. Por eso le falta:</p>
+<ul>
+<li>Una interfaz más trabajada y con animaciones.</li>
+<li>Guardar el historial de entrenamientos en una base de datos local.</li>
+<li>Un cronómetro para medir el tiempo real y calcular mejor las calorías.</li>
+<li>Guardar y reutilizar rutinas.</li>
+<li>Ejercicios y grupos musculares predefinidos para armar la rutina más rápido.</li>
+</ul>
+<p>Aun así, es el proyecto con el que por fin entendí cómo funciona una app por dentro.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+// ---------- Listados: filtro por categoría, buscador y paginación ----------
+document.querySelectorAll("[data-posts]").forEach(function (root) {
+  var items = Array.from(root.querySelectorAll("[data-cats]"));
+  var chips = Array.from(root.querySelectorAll("[data-filter]"));
+  var groups = Array.from(root.querySelectorAll("[data-group]"));
+  var search = root.querySelector("[data-search]");
+  var pager = root.querySelector("[data-pager]");
+  var empty = root.querySelector("[data-empty]");
+  var size = parseInt(root.dataset.pageSize || "0", 10);
+  var state = { cat: "*", q: "", page: 1 };
+
+  function draw() {
+    var match = items.filter(function (el) {
+      var okCat = state.cat === "*" || el.dataset.cats.split("|").indexOf(state.cat) > -1;
+      var okQ = !state.q || el.textContent.toLowerCase().indexOf(state.q) > -1;
+      return okCat && okQ;
+    });
+    var pages = size ? Math.max(1, Math.ceil(match.length / size)) : 1;
+    if (state.page > pages) state.page = pages;
+    items.forEach(function (el) { el.hidden = true; });
+    match.forEach(function (el, i) {
+      el.hidden = size ? Math.floor(i / size) + 1 !== state.page : false;
+    });
+    groups.forEach(function (g) { g.hidden = !g.querySelector("[data-cats]:not([hidden])"); });
+    if (empty) empty.hidden = match.length > 0;
+    if (pager) {
+      pager.innerHTML = "";
+      for (var p = 1; p <= pages && pages > 1; p++) {
+        var b = document.createElement("button");
+        b.type = "button"; b.textContent = p;
+        b.setAttribute("aria-label", "Página " + p);
+        if (p === state.page) b.setAttribute("aria-current", "page");
+        b.addEventListener("click", (function (n) {
+          return function () { state.page = n; draw(); root.scrollIntoView({ block: "start" }); };
+        })(p));
+        pager.appendChild(b);
+      }
+    }
+  }
+
+  chips.forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      state.cat = chip.dataset.filter; state.page = 1;
+      chips.forEach(function (c) { c.setAttribute("aria-pressed", c === chip); });
+      draw();
+    });
+  });
+  if (search) {
+    search.addEventListener("input", function () {
+      state.q = search.value.trim().toLowerCase(); state.page = 1; draw();
+    });
+    // Atajo: la tecla "/" enfoca el buscador
+    document.addEventListener("keydown", function (e) {
+      var t = e.target.tagName;
+      if (e.key === "/" && t !== "INPUT" && t !== "TEXTAREA") { e.preventDefault(); search.focus(); }
+      if (e.key === "Escape" && e.target === search) { search.value = ""; search.dispatchEvent(new Event("input")); search.blur(); }
+    });
+  }
+  draw();
+});
+
+// ---------- Brillo que sigue al cursor en las tarjetas ----------
+document.querySelectorAll(".md-card").forEach(function (card) {
+  card.addEventListener("pointermove", function (e) {
+    var r = card.getBoundingClientRect();
+    card.style.setProperty("--mx", (e.clientX - r.left) + "px");
+    card.style.setProperty("--my", (e.clientY - r.top) + "px");
+  });
+});
+
+// ---------- Entradas: tiempo de lectura, barra de progreso y etiqueta de lenguaje en el código ----------
+(function () {
+  if (!document.querySelector(".md-back")) return;
+  var main = document.querySelector("main");
+  var date = document.querySelector("#title-block-header .date");
+  if (main && date) {
+    var words = main.innerText.trim().split(/\s+/).length;
+    date.textContent += " · " + Math.max(1, Math.round(words / 200)) + " min de lectura";
+  }
+  var bar = document.createElement("div"); bar.className = "md-progress"; document.body.appendChild(bar);
+  window.addEventListener("scroll", function () {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.transform = "scaleX(" + (h > 0 ? window.scrollY / h : 0) + ")";
+  }, { passive: true });
+})();
+document.querySelectorAll("div.sourceCode").forEach(function (box) {
+  var pre = box.querySelector("pre"); if (!pre) return;
+  var skip = ["sourceCode", "code-with-copy", "numberSource", "number-lines"];
+  var lang = Array.from(pre.classList).filter(function (c) { return skip.indexOf(c) < 0; })[0];
+  box.setAttribute("data-lang", lang || "código");
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/manu-09-web\.github\.io\/MiWebQuarto");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© 2026 manu.dev · Manuel Herrera</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
