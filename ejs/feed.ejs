@@ -1,22 +1,30 @@
 ```{=html}
-<% const cats = [...new Set(items.flatMap(i => i.categories || []))].sort(); %>
+<%
+const cats = [...new Set(items.flatMap(i => i.categories || []))].sort();
+// Ícono de Bootstrap Icons para cada categoría (las que no estén aquí usan "#")
+const catIcon = c => ({ Mobile: "phone", Kotlin: "code-slash", FullStack: "layers", Cloud: "cloud" }[c] || "hash");
+%>
 <div data-posts data-page-size="6">
   <div class="md-chips" style="margin:0 0 1.6rem" role="group" aria-label="Filtrar por categoría">
-    <button class="md-chip" type="button" data-filter="*" aria-pressed="true">Todos</button>
+    <button class="md-chip" type="button" data-filter="*" aria-pressed="true"><i class="bi bi-grid"></i> Todos</button>
     <% for (const c of cats) { %>
-    <button class="md-chip" type="button" data-filter="<%= c %>" aria-pressed="false">#<%= c %></button>
+    <button class="md-chip" type="button" data-filter="<%= c %>" aria-pressed="false"><i class="bi bi-<%= catIcon(c) %>"></i> <%= c %></button>
     <% } %>
   </div>
 
   <div class="md-feed">
     <% for (const item of items) { %>
     <article class="md-card md-post" data-cats="<%= (item.categories || []).join('|') %>">
-      <div class="md-post-cat"><%= (item.categories || []).join(' / ') %></div>
+      <div class="md-post-img">
+        <% if (item.image) { %><img src="<%= item.image %>" alt="<%= item['image-alt'] || '' %>" loading="lazy">
+        <% } else { %><i class="bi bi-<%= catIcon((item.categories || [])[0]) %>"></i><% } %>
+      </div>
+      <div class="md-post-cat"><% for (const c of (item.categories || [])) { %><span><i class="bi bi-<%= catIcon(c) %>"></i> <%= c %></span><% } %></div>
       <h3><a href="<%- item.path %>"><%= item.title %></a></h3>
       <p><%= item.description %></p>
       <div class="md-post-meta">
-        <span><%= item.date %> · <%= item['reading-time'] %></span>
-        <span aria-hidden="true">Leer →</span>
+        <span><i class="bi bi-calendar3"></i> <%= item.date %> &nbsp;<i class="bi bi-clock"></i> <%= item['reading-time'] %></span>
+        <span aria-hidden="true">Leer <i class="bi bi-arrow-right"></i></span>
       </div>
     </article>
     <% } %>

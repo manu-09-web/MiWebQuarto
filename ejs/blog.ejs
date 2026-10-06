@@ -1,6 +1,8 @@
 ```{=html}
 <%
 const cats = [...new Set(items.flatMap(i => i.categories || []))].sort();
+// Ícono de Bootstrap Icons para cada categoría (las que no estén aquí usan "#")
+const catIcon = c => ({ Mobile: "phone", Kotlin: "code-slash", FullStack: "layers", Cloud: "cloud" }[c] || "hash");
 // Destacado: el post con "featured: true" en su encabezado; si no hay, el más reciente
 const featured = items.find(i => i.featured === true) || items[0];
 const rest = items.filter(i => i !== featured);
@@ -15,9 +17,10 @@ for (const i of rest) {
 }
 %>
 <div data-posts>
-  <p class="md-stats"><b><%= items.length %></b> entradas · <b><%= cats.length %></b> categorías</p>
+  <p class="md-stats"><i class="bi bi-journal-text"></i><b><%= items.length %></b> entradas <span>·</span> <i class="bi bi-tags"></i><b><%= cats.length %></b> categorías</p>
 
   <div class="md-searchbox">
+    <i class="bi bi-search" aria-hidden="true"></i>
     <input type="search" data-search placeholder="Buscar por Kotlin, AWS, MariaDB, CSS…" aria-label="Buscar entradas">
     <kbd>/</kbd>
   </div>
@@ -32,11 +35,11 @@ for (const i of rest) {
       <% } %>
     </div>
     <div class="md-featured-body">
-      <span class="md-tag">Destacado</span>
+      <span class="md-tag"><i class="bi bi-star-fill"></i> Destacado</span>
       <h3><a href="<%- featured.path %>"><%= featured.title %></a></h3>
       <p><%= featured.description %></p>
       <div class="md-post-meta">
-        <span><%= featured.date %> · <%= featured['reading-time'] %></span>
+        <span><i class="bi bi-calendar3"></i> <%= featured.date %> &nbsp;<i class="bi bi-clock"></i> <%= featured['reading-time'] %></span>
         <a href="<%- featured.path %>" aria-label="Leer: <%= featured.title %>">Leer post →</a>
       </div>
     </div>
@@ -44,9 +47,9 @@ for (const i of rest) {
   <% } %>
 
   <div class="md-chips" role="group" aria-label="Filtrar por categoría">
-    <button class="md-chip" type="button" data-filter="*" aria-pressed="true">#Todos</button>
+    <button class="md-chip" type="button" data-filter="*" aria-pressed="true"><i class="bi bi-grid"></i> Todos</button>
     <% for (const c of cats) { %>
-    <button class="md-chip" type="button" data-filter="<%= c %>" aria-pressed="false">#<%= c %></button>
+    <button class="md-chip" type="button" data-filter="<%= c %>" aria-pressed="false"><i class="bi bi-<%= catIcon(c) %>"></i> <%= c %></button>
     <% } %>
   </div>
 
@@ -56,11 +59,12 @@ for (const i of rest) {
     <% for (const item of g.items) { %>
     <a class="md-row" href="<%- item.path %>" data-cats="<%= (item.categories || []).join('|') %>">
       <span class="md-row-date"><%= dayOf(item) %></span>
+      <span class="md-row-thumb"><% if (item.image) { %><img src="<%= item.image %>" alt="" loading="lazy"><% } else { %><i class="bi bi-<%= catIcon((item.categories || [])[0]) %>"></i><% } %></span>
       <span>
         <span class="md-row-title"><%= item.title %></span>
         <span class="md-row-desc"><%= item.description %></span>
         <span class="md-row-cats">
-          <% for (const c of (item.categories || [])) { %><span class="md-pill"><%= c %></span><% } %>
+          <% for (const c of (item.categories || [])) { %><span class="md-pill"><i class="bi bi-<%= catIcon(c) %>"></i> <%= c %></span><% } %>
         </span>
       </span>
       <span class="md-row-go" aria-hidden="true">→</span>
@@ -70,6 +74,6 @@ for (const i of rest) {
   <% } %>
 
   <p class="md-muted" data-empty hidden style="margin-top:2rem">No hay entradas con ese filtro. Prueba otra categoría o borra la búsqueda.</p>
-  <p style="margin-top:2.5rem"><a class="md-btn" href="feed.html">Ver todas las entradas</a></p>
+  <p style="margin-top:2.5rem"><a class="md-btn" href="feed.html"><i class="bi bi-grid"></i> Ver todas las entradas</a></p>
 </div>
 ```

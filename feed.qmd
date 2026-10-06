@@ -7,7 +7,7 @@ listing:
   contents: posts
   sort: "date desc"
   template: ejs/feed.ejs
-  fields: [title, description, date, categories, reading-time]
+  fields: [title, description, date, categories, reading-time, image]
   date-format: "DD MMM YYYY"
 ---
 

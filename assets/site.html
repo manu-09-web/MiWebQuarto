@@ -90,4 +90,18 @@ document.querySelectorAll("div.sourceCode").forEach(function (box) {
   var lang = Array.from(pre.classList).filter(function (c) { return skip.indexOf(c) < 0; })[0];
   box.setAttribute("data-lang", lang || "código");
 });
+
+// ---------- Botón para volver arriba ----------
+(function () {
+  var btn = document.createElement("button");
+  btn.className = "md-top";
+  btn.setAttribute("aria-label", "Volver arriba");
+  btn.innerHTML = '<i class="bi bi-arrow-up"></i>';
+  btn.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+  document.body.appendChild(btn);
+  // Se muestra cuando ya bajaste más de una pantalla
+  window.addEventListener("scroll", function () {
+    btn.classList.toggle("is-visible", window.scrollY > window.innerHeight);
+  }, { passive: true });
+})();
 </script>
