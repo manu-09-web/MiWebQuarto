@@ -1,0 +1,53 @@
+project:
+  type: website
+  output-dir: _site
+  resources:
+    - robots.txt
+    - img
+
+lang: es
+
+website:
+  title: "manu.dev"
+  description: "Blog personal de Manuel Herrera, estudiante de Ingeniería en Tecnologías. Apuntes y experiencias sobre desarrollo web, apps móviles, bases de datos y nube."
+  # CAMBIA esto por tu URL real: sin site-url no se generan sitemap, RSS ni URLs canónicas
+  site-url: "https://manu-09-web.github.io/MiWebQuarto"
+  favicon: assets/favicon.svg
+  image: assets/og-cover.png
+  image-alt: "manu.dev, blog de desarrollo de Manuel Herrera"
+  open-graph:
+    locale: es_MX
+    site-name: manu.dev
+  twitter-card:
+    card-style: summary_large_image
+  search: true
+  navbar:
+    title: "manu.dev"
+    collapse-below: md
+    right:
+      - text: Inicio
+        href: index.qmd
+      - text: Blog
+        href: blog.qmd
+      - text: Feed
+        href: feed.qmd
+      - icon: github
+        href: https://github.com/manu-09-web
+        aria-label: GitHub
+      - icon: rss
+        href: blog.xml
+        aria-label: RSS
+  page-footer:
+    center: "© 2026 manu.dev · Manuel Herrera"
+
+format:
+  html:
+    theme: [cosmo, styles/theme.scss]
+    highlight-style: nord
+    code-copy: true
+    canonical-url: true
+    toc: false
+    smooth-scroll: true
+    link-external-newwindow: true
+    include-in-header: assets/head.html
+    include-after-body: assets/site.html

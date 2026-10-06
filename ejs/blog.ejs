@@ -1,0 +1,75 @@
+```{=html}
+<%
+const cats = [...new Set(items.flatMap(i => i.categories || []))].sort();
+// Destacado: el post con "featured: true" en su encabezado; si no hay, el más reciente
+const featured = items.find(i => i.featured === true) || items[0];
+const rest = items.filter(i => i !== featured);
+const yearOf = i => (String(i.date).match(/\d{4}/) || ["Sin fecha"])[0];
+const dayOf = i => String(i.date).replace(/\s*\d{4}\s*/, "").trim();
+const groups = [];
+for (const i of rest) {
+  const y = yearOf(i);
+  let g = groups.find(x => x.y === y);
+  if (!g) { g = { y, items: [] }; groups.push(g); }
+  g.items.push(i);
+}
+%>
+<div data-posts>
+  <p class="md-stats"><b><%= items.length %></b> entradas · <b><%= cats.length %></b> categorías</p>
+
+  <div class="md-searchbox">
+    <input type="search" data-search placeholder="Buscar por Kotlin, AWS, MariaDB, CSS…" aria-label="Buscar entradas">
+    <kbd>/</kbd>
+  </div>
+
+  <% if (featured) { %>
+  <article class="md-card md-featured" data-cats="<%= (featured.categories || []).join('|') %>">
+    <div class="md-cover">
+      <% if (featured.image) { %>
+      <img src="<%= featured.image %>" alt="<%= featured['image-alt'] || '' %>">
+      <% } else { %>
+      <span aria-hidden="true">&lt;<%= (featured.categories || ['post'])[0] %>/&gt;</span>
+      <% } %>
+    </div>
+    <div class="md-featured-body">
+      <span class="md-tag">Destacado</span>
+      <h3><a href="<%- featured.path %>"><%= featured.title %></a></h3>
+      <p><%= featured.description %></p>
+      <div class="md-post-meta">
+        <span><%= featured.date %> · <%= featured['reading-time'] %></span>
+        <a href="<%- featured.path %>" aria-label="Leer: <%= featured.title %>">Leer post →</a>
+      </div>
+    </div>
+  </article>
+  <% } %>
+
+  <div class="md-chips" role="group" aria-label="Filtrar por categoría">
+    <button class="md-chip" type="button" data-filter="*" aria-pressed="true">#Todos</button>
+    <% for (const c of cats) { %>
+    <button class="md-chip" type="button" data-filter="<%= c %>" aria-pressed="false">#<%= c %></button>
+    <% } %>
+  </div>
+
+  <% for (const g of groups) { %>
+  <section class="md-year" data-group>
+    <h2><%= g.y %></h2>
+    <% for (const item of g.items) { %>
+    <a class="md-row" href="<%- item.path %>" data-cats="<%= (item.categories || []).join('|') %>">
+      <span class="md-row-date"><%= dayOf(item) %></span>
+      <span>
+        <span class="md-row-title"><%= item.title %></span>
+        <span class="md-row-desc"><%= item.description %></span>
+        <span class="md-row-cats">
+          <% for (const c of (item.categories || [])) { %><span class="md-pill"><%= c %></span><% } %>
+        </span>
+      </span>
+      <span class="md-row-go" aria-hidden="true">→</span>
+    </a>
+    <% } %>
+  </section>
+  <% } %>
+
+  <p class="md-muted" data-empty hidden style="margin-top:2rem">No hay entradas con ese filtro. Prueba otra categoría o borra la búsqueda.</p>
+  <p style="margin-top:2.5rem"><a class="md-btn" href="feed.html">Ver todas las entradas</a></p>
+</div>
+```

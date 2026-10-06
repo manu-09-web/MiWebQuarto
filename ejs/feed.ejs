@@ -1,0 +1,27 @@
+```{=html}
+<% const cats = [...new Set(items.flatMap(i => i.categories || []))].sort(); %>
+<div data-posts data-page-size="6">
+  <div class="md-chips" style="margin:0 0 1.6rem" role="group" aria-label="Filtrar por categoría">
+    <button class="md-chip" type="button" data-filter="*" aria-pressed="true">Todos</button>
+    <% for (const c of cats) { %>
+    <button class="md-chip" type="button" data-filter="<%= c %>" aria-pressed="false">#<%= c %></button>
+    <% } %>
+  </div>
+
+  <div class="md-feed">
+    <% for (const item of items) { %>
+    <article class="md-card md-post" data-cats="<%= (item.categories || []).join('|') %>">
+      <div class="md-post-cat"><%= (item.categories || []).join(' / ') %></div>
+      <h3><a href="<%- item.path %>"><%= item.title %></a></h3>
+      <p><%= item.description %></p>
+      <div class="md-post-meta">
+        <span><%= item.date %> · <%= item['reading-time'] %></span>
+        <span aria-hidden="true">Leer →</span>
+      </div>
+    </article>
+    <% } %>
+  </div>
+  <p class="md-muted" data-empty hidden>No hay entradas en esta categoría todavía.</p>
+  <nav class="md-pager" data-pager aria-label="Páginas"></nav>
+</div>
+```

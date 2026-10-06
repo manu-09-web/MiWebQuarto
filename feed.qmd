@@ -1,0 +1,23 @@
+---
+pagetitle: "Feed de entradas | manu.dev"
+description: "Catálogo de todas las entradas de manu.dev: proyectos, prácticas y aprendizajes académicos ordenados por fecha y categoría."
+title-block-style: none
+listing:
+  id: feed-posts
+  contents: posts
+  sort: "date desc"
+  template: ejs/feed.ejs
+  fields: [title, description, date, categories, reading-time]
+  date-format: "DD MMM YYYY"
+---
+
+```{=html}
+<header class="md-head">
+  <p class="md-kicker">Archivo</p>
+  <h1>Feed de entradas</h1>
+  <p>Catálogo ordenado de proyectos, prácticas y aprendizajes académicos.</p>
+</header>
+```
+
+::: {#feed-posts}
+:::

@@ -1,0 +1,12 @@
+# Opciones compartidas por todas las entradas
+author: "Manuel Herrera"
+toc: true
+toc-title: "En este post"
+toc-location: body
+toc-depth: 2
+number-sections: true
+number-depth: 1
+date-format: "DD MMM YYYY"
+include-before-body:
+  text: |
+    <a class="md-back" href="../../blog.html">← Volver a posts</a>

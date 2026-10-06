@@ -1,0 +1,93 @@
+<script>
+// ---------- Listados: filtro por categoría, buscador y paginación ----------
+document.querySelectorAll("[data-posts]").forEach(function (root) {
+  var items = Array.from(root.querySelectorAll("[data-cats]"));
+  var chips = Array.from(root.querySelectorAll("[data-filter]"));
+  var groups = Array.from(root.querySelectorAll("[data-group]"));
+  var search = root.querySelector("[data-search]");
+  var pager = root.querySelector("[data-pager]");
+  var empty = root.querySelector("[data-empty]");
+  var size = parseInt(root.dataset.pageSize || "0", 10);
+  var state = { cat: "*", q: "", page: 1 };
+
+  function draw() {
+    var match = items.filter(function (el) {
+      var okCat = state.cat === "*" || el.dataset.cats.split("|").indexOf(state.cat) > -1;
+      var okQ = !state.q || el.textContent.toLowerCase().indexOf(state.q) > -1;
+      return okCat && okQ;
+    });
+    var pages = size ? Math.max(1, Math.ceil(match.length / size)) : 1;
+    if (state.page > pages) state.page = pages;
+    items.forEach(function (el) { el.hidden = true; });
+    match.forEach(function (el, i) {
+      el.hidden = size ? Math.floor(i / size) + 1 !== state.page : false;
+    });
+    groups.forEach(function (g) { g.hidden = !g.querySelector("[data-cats]:not([hidden])"); });
+    if (empty) empty.hidden = match.length > 0;
+    if (pager) {
+      pager.innerHTML = "";
+      for (var p = 1; p <= pages && pages > 1; p++) {
+        var b = document.createElement("button");
+        b.type = "button"; b.textContent = p;
+        b.setAttribute("aria-label", "Página " + p);
+        if (p === state.page) b.setAttribute("aria-current", "page");
+        b.addEventListener("click", (function (n) {
+          return function () { state.page = n; draw(); root.scrollIntoView({ block: "start" }); };
+        })(p));
+        pager.appendChild(b);
+      }
+    }
+  }
+
+  chips.forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      state.cat = chip.dataset.filter; state.page = 1;
+      chips.forEach(function (c) { c.setAttribute("aria-pressed", c === chip); });
+      draw();
+    });
+  });
+  if (search) {
+    search.addEventListener("input", function () {
+      state.q = search.value.trim().toLowerCase(); state.page = 1; draw();
+    });
+    // Atajo: la tecla "/" enfoca el buscador
+    document.addEventListener("keydown", function (e) {
+      var t = e.target.tagName;
+      if (e.key === "/" && t !== "INPUT" && t !== "TEXTAREA") { e.preventDefault(); search.focus(); }
+      if (e.key === "Escape" && e.target === search) { search.value = ""; search.dispatchEvent(new Event("input")); search.blur(); }
+    });
+  }
+  draw();
+});
+
+// ---------- Brillo que sigue al cursor en las tarjetas ----------
+document.querySelectorAll(".md-card").forEach(function (card) {
+  card.addEventListener("pointermove", function (e) {
+    var r = card.getBoundingClientRect();
+    card.style.setProperty("--mx", (e.clientX - r.left) + "px");
+    card.style.setProperty("--my", (e.clientY - r.top) + "px");
+  });
+});
+
+// ---------- Entradas: tiempo de lectura, barra de progreso y etiqueta de lenguaje en el código ----------
+(function () {
+  if (!document.querySelector(".md-back")) return;
+  var main = document.querySelector("main");
+  var date = document.querySelector("#title-block-header .date");
+  if (main && date) {
+    var words = main.innerText.trim().split(/\s+/).length;
+    date.textContent += " · " + Math.max(1, Math.round(words / 200)) + " min de lectura";
+  }
+  var bar = document.createElement("div"); bar.className = "md-progress"; document.body.appendChild(bar);
+  window.addEventListener("scroll", function () {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.transform = "scaleX(" + (h > 0 ? window.scrollY / h : 0) + ")";
+  }, { passive: true });
+})();
+document.querySelectorAll("div.sourceCode").forEach(function (box) {
+  var pre = box.querySelector("pre"); if (!pre) return;
+  var skip = ["sourceCode", "code-with-copy", "numberSource", "number-lines"];
+  var lang = Array.from(pre.classList).filter(function (c) { return skip.indexOf(c) < 0; })[0];
+  box.setAttribute("data-lang", lang || "código");
+});
+</script>

@@ -1,0 +1,26 @@
+---
+pagetitle: "Blog: Aprendizaje y Código | manu.dev"
+description: "Bitácora de desarrollo de Manuel Herrera: experiencias con Kotlin y Jetpack Compose, proyectos full stack, MariaDB, AWS y materias de la carrera."
+title-block-style: none
+listing:
+  id: blog-posts
+  contents: posts
+  sort: "date desc"
+  template: ejs/blog.ejs
+  fields: [title, description, date, categories, reading-time, image]
+  date-format: "DD MMM YYYY"
+  feed:
+    title: "manu.dev"
+    description: "Entradas nuevas del blog de Manuel Herrera"
+---
+
+```{=html}
+<header class="md-head">
+  <p class="md-kicker">Bitácora dev</p>
+  <h1>Aprendizaje <span class="md-grad">y Código</span></h1>
+  <p>Espacio para documentar mi experiencia en desarrollo web, móvil e infraestructura.</p>
+</header>
+```
+
+::: {#blog-posts}
+:::
