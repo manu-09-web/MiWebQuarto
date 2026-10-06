@@ -84,7 +84,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-235dd7208b0ab31445e75e432a8fe391.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-00511cd0a22a3a9f95b2553935070245.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-7749709dbc8894196379dd86b3a8f58e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -170,6 +170,10 @@ window.Quarto = {
     <nav class="navbar navbar-expand-md " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../assets/logo.png" alt="Logo de manu.dev" class="navbar-logo light-content">
+    <img src="../../assets/logo.png" alt="Logo de manu.dev" class="navbar-logo dark-content">
+    </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">manu.dev</span>
     </a>
@@ -181,15 +185,18 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html"> 
+    <a class="nav-link" href="../../index.html"> <i class="bi bi-house" role="img">
+</i> 
 <span class="menu-text">Inicio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../blog.html"> 
+    <a class="nav-link" href="../../blog.html"> <i class="bi bi-journal-text" role="img">
+</i> 
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../feed.html"> 
+    <a class="nav-link" href="../../feed.html"> <i class="bi bi-grid" role="img">
+</i> 
 <span class="menu-text">Feed</span></a>
   </li>  
   <li class="nav-item compact">
@@ -512,6 +519,20 @@ document.querySelectorAll("div.sourceCode").forEach(function (box) {
   var lang = Array.from(pre.classList).filter(function (c) { return skip.indexOf(c) < 0; })[0];
   box.setAttribute("data-lang", lang || "código");
 });
+
+// ---------- Botón para volver arriba ----------
+(function () {
+  var btn = document.createElement("button");
+  btn.className = "md-top";
+  btn.setAttribute("aria-label", "Volver arriba");
+  btn.innerHTML = '<i class="bi bi-arrow-up"></i>';
+  btn.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+  document.body.appendChild(btn);
+  // Se muestra cuando ya bajaste más de una pantalla
+  window.addEventListener("scroll", function () {
+    btn.classList.toggle("is-visible", window.scrollY > window.innerHeight);
+  }, { passive: true });
+})();
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

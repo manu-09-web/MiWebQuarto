@@ -49,7 +49,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-235dd7208b0ab31445e75e432a8fe391.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-fd96ca40b99d9b456ca585f335fd7271.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-2f8a221bed531b6db35dbef5f0395757.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -87,7 +87,7 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-title','listing-description','listing-date','listing-categories','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
+      valueNames: ['listing-title','listing-description','listing-date','listing-categories','listing-reading-time','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
       
       searchColumns: ["listing-project","listing-lang","listing-website","listing-format","listing-engines","listing-language","listing-author","listing-toc","listing-toc-title","listing-toc-location","listing-toc-depth","listing-number-sections","listing-number-depth","listing-date-format","listing-include-before-body","listing-title","listing-description","listing-date","listing-categories","listing-featured","listing-image","listing-image-alt","listing-path","listing-outputHref","listing-date-modified","listing-filename","listing-file-modified","listing-reading-time","listing-word-count"],
     };
@@ -145,19 +145,15 @@ window.Quarto = {
 
 <meta property="og:title" content="Feed de entradas | manu.dev">
 <meta property="og:description" content="Catálogo de todas las entradas de manu.dev: proyectos, prácticas y aprendizajes académicos ordenados por fecha y categoría.">
-<meta property="og:image" content="https://manu-09-web.github.io/MiWebQuarto/assets/og-cover.png">
+<meta property="og:image" content="https://manu-09-web.github.io/MiWebQuarto/posts/kotlin-compose/portada.jpg">
 <meta property="og:site_name" content="manu.dev">
 <meta property="og:locale" content="es_MX">
-<meta property="og:image:alt" content="manu.dev, blog de desarrollo de Manuel Herrera">
-<meta property="og:image:height" content="630">
-<meta property="og:image:width" content="1200">
+<meta property="og:image:alt" content="Las tres pantallas de Gym Tracker: configuración, entrenamiento en curso y resumen">
 <meta name="twitter:title" content="Feed de entradas | manu.dev">
 <meta name="twitter:description" content="Catálogo de todas las entradas de manu.dev: proyectos, prácticas y aprendizajes académicos ordenados por fecha y categoría.">
-<meta name="twitter:image" content="https://manu-09-web.github.io/MiWebQuarto/assets/og-cover.png">
+<meta name="twitter:image" content="https://manu-09-web.github.io/MiWebQuarto/posts/kotlin-compose/portada.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image:alt" content="manu.dev, blog de desarrollo de Manuel Herrera">
-<meta name="twitter:image-height" content="630">
-<meta name="twitter:image-width" content="1200">
+<meta name="twitter:image:alt" content="Las tres pantallas de Gym Tracker: configuración, entrenamiento en curso y resumen">
 <link rel="canonical" href="https://manu-09-web.github.io/MiWebQuarto/feed.html">
 </head>
 
@@ -168,6 +164,10 @@ window.Quarto = {
     <nav class="navbar navbar-expand-md " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./assets/logo.png" alt="Logo de manu.dev" class="navbar-logo light-content">
+    <img src="./assets/logo.png" alt="Logo de manu.dev" class="navbar-logo dark-content">
+    </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">manu.dev</span>
     </a>
@@ -179,15 +179,18 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="./index.html"> <i class="bi bi-house" role="img">
+</i> 
 <span class="menu-text">Inicio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./blog.html"> 
+    <a class="nav-link" href="./blog.html"> <i class="bi bi-journal-text" role="img">
+</i> 
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./feed.html" aria-current="page"> 
+    <a class="nav-link active" href="./feed.html" aria-current="page"> <i class="bi bi-grid" role="img">
+</i> 
 <span class="menu-text">Feed</span></a>
   </li>  
   <li class="nav-item compact">
@@ -227,37 +230,45 @@ window.Quarto = {
 
 <div data-posts="" data-page-size="6">
   <div class="md-chips" style="margin:0 0 1.6rem" role="group" aria-label="Filtrar por categoría">
-    <button class="md-chip" type="button" data-filter="*" aria-pressed="true">Todos</button>
+    <button class="md-chip" type="button" data-filter="*" aria-pressed="true"><i class="bi bi-grid"></i> Todos</button>
     
-    <button class="md-chip" type="button" data-filter="Cloud" aria-pressed="false">#Cloud</button>
+    <button class="md-chip" type="button" data-filter="Cloud" aria-pressed="false"><i class="bi bi-cloud"></i> Cloud</button>
     
-    <button class="md-chip" type="button" data-filter="FullStack" aria-pressed="false">#FullStack</button>
+    <button class="md-chip" type="button" data-filter="FullStack" aria-pressed="false"><i class="bi bi-layers"></i> FullStack</button>
     
-    <button class="md-chip" type="button" data-filter="Kotlin" aria-pressed="false">#Kotlin</button>
+    <button class="md-chip" type="button" data-filter="Kotlin" aria-pressed="false"><i class="bi bi-code-slash"></i> Kotlin</button>
     
-    <button class="md-chip" type="button" data-filter="Mobile" aria-pressed="false">#Mobile</button>
+    <button class="md-chip" type="button" data-filter="Mobile" aria-pressed="false"><i class="bi bi-phone"></i> Mobile</button>
     
   </div>
 
   <div class="md-feed">
     
     <article class="md-card md-post" data-cats="Mobile|Kotlin">
-      <div class="md-post-cat">Mobile / Kotlin</div>
+      <div class="md-post-img">
+        <img src="./posts/kotlin-compose/portada.jpg" alt="Las tres pantallas de Gym Tracker: configuración, entrenamiento en curso y resumen" loading="lazy">
+        
+      </div>
+      <div class="md-post-cat"><span><i class="bi bi-phone"></i> Mobile</span><span><i class="bi bi-code-slash"></i> Kotlin</span></div>
       <h3 class="anchored"><a href="./posts/kotlin-compose/index.html">Mi experiencia aprendiendo a desarrollar apps móviles con Kotlin Compose</a></h3>
       <p>Construí Gym Tracker, una app Android para registrar series y estimar calorías, con MVVM, Jetpack Compose y StateFlow. Esto fue lo que me costó y lo que aprendí.</p>
       <div class="md-post-meta">
-        <span>05 oct 2026 · 6 minutos</span>
-        <span aria-hidden="true">Leer →</span>
+        <span><i class="bi bi-calendar3"></i> 05 oct 2026 &nbsp;<i class="bi bi-clock"></i> 6 minutos</span>
+        <span aria-hidden="true">Leer <i class="bi bi-arrow-right"></i></span>
       </div>
     </article>
     
     <article class="md-card md-post" data-cats="FullStack|Cloud">
-      <div class="md-post-cat">FullStack / Cloud</div>
+      <div class="md-post-img">
+        <img src="./posts/proyecto-integrador/portada.jpg" alt="Pantalla de inicio de sesión de EduControl" loading="lazy">
+        
+      </div>
+      <div class="md-post-cat"><span><i class="bi bi-layers"></i> FullStack</span><span><i class="bi bi-cloud"></i> Cloud</span></div>
       <h3 class="anchored"><a href="./posts/proyecto-integrador/index.html">Mi experiencia desarrollando un proyecto integrador con HTML, CSS, JS, MariaDB y AWS</a></h3>
       <p>EduControl es un sistema web de gestión académica para una primaria. Lo hicimos en equipo de tres; yo trabajé backend, base de datos y despliegue en AWS.</p>
       <div class="md-post-meta">
-        <span>04 oct 2026 · 3 minutos</span>
-        <span aria-hidden="true">Leer →</span>
+        <span><i class="bi bi-calendar3"></i> 04 oct 2026 &nbsp;<i class="bi bi-clock"></i> 3 minutos</span>
+        <span aria-hidden="true">Leer <i class="bi bi-arrow-right"></i></span>
       </div>
     </article>
     
@@ -364,6 +375,20 @@ document.querySelectorAll("div.sourceCode").forEach(function (box) {
   var lang = Array.from(pre.classList).filter(function (c) { return skip.indexOf(c) < 0; })[0];
   box.setAttribute("data-lang", lang || "código");
 });
+
+// ---------- Botón para volver arriba ----------
+(function () {
+  var btn = document.createElement("button");
+  btn.className = "md-top";
+  btn.setAttribute("aria-label", "Volver arriba");
+  btn.innerHTML = '<i class="bi bi-arrow-up"></i>';
+  btn.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+  document.body.appendChild(btn);
+  // Se muestra cuando ya bajaste más de una pantalla
+  window.addEventListener("scroll", function () {
+    btn.classList.toggle("is-visible", window.scrollY > window.innerHeight);
+  }, { passive: true });
+})();
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

@@ -47,7 +47,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-235dd7208b0ab31445e75e432a8fe391.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-fd96ca40b99d9b456ca585f335fd7271.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-2f8a221bed531b6db35dbef5f0395757.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -108,6 +108,10 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-md " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./assets/logo.png" alt="Logo de manu.dev" class="navbar-logo light-content">
+    <img src="./assets/logo.png" alt="Logo de manu.dev" class="navbar-logo dark-content">
+    </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">manu.dev</span>
     </a>
@@ -119,15 +123,18 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link active" href="./index.html" aria-current="page"> <i class="bi bi-house" role="img">
+</i> 
 <span class="menu-text">Inicio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./blog.html"> 
+    <a class="nav-link" href="./blog.html"> <i class="bi bi-journal-text" role="img">
+</i> 
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./feed.html"> 
+    <a class="nav-link" href="./feed.html"> <i class="bi bi-grid" role="img">
+</i> 
 <span class="menu-text">Feed</span></a>
   </li>  
   <li class="nav-item compact">
@@ -179,9 +186,21 @@ ul.task-list li input[type="checkbox"] {
     <p class="md-kicker">Sobre mí</p>
     <h2 style="margin-top:0">Un espacio para documentar lo que aprendo</h2>
     <p>Aquí voy dejando registro de mi proceso de aprendizaje: proyectos, tecnologías y experiencias durante la carrera.</p>
-    <h2>Lenguajes de programación</h2>
+    <h2>Tecnologías</h2>
+    <!-- Íconos de Devicon (devicon.dev, licencia MIT) -->
     <ul class="md-langs">
-      <li>Java</li><li>C++</li><li>Python</li><li>MySQL</li><li>JavaScript</li><li>CSS</li>
+      <li><img src="assets/icons/html5.svg" alt="" width="48" height="48">HTML</li>
+      <li><img src="assets/icons/css3.svg" alt="" width="48" height="48">CSS</li>
+      <li><img src="assets/icons/javascript.svg" alt="" width="48" height="48">JavaScript</li>
+      <li><img src="assets/icons/java.svg" alt="" width="48" height="48">Java</li>
+      <li><img src="assets/icons/kotlin.svg" alt="" width="48" height="48">Kotlin</li>
+      <li><img src="assets/icons/python.svg" alt="" width="48" height="48">Python</li>
+      <li><img src="assets/icons/c.svg" alt="" width="48" height="48">C</li>
+      <li><img src="assets/icons/cplusplus.svg" alt="" width="48" height="48">C++</li>
+      <li><img class="is-light" src="assets/icons/mysql.svg" alt="" width="48" height="48">MySQL</li>
+      <li><img src="assets/icons/mariadb.svg" alt="" width="48" height="48">MariaDB</li>
+      <li><img class="is-light" src="assets/icons/aws.svg" alt="" width="48" height="48">AWS</li>
+      <li><img class="is-light" src="assets/icons/github.svg" alt="" width="48" height="48">GitHub</li>
     </ul>
   </div>
 </section>
@@ -197,8 +216,16 @@ ul.task-list li input[type="checkbox"] {
           <span class="md-pill">HTML</span><span class="md-pill">CSS</span><span class="md-pill">JavaScript</span><span class="md-pill">Java + Javalin</span><span class="md-pill">MariaDB</span><span class="md-pill">AWS</span>
         </div>
         <p style="margin-top:1.4rem"><a class="md-btn" href="posts/proyecto-integrador/index.html">Leer cómo lo hicimos →</a></p>
+        <p class="md-kicker" style="margin-top:2.4rem">Mi rol</p>
+        <ul class="md-role">
+          <li><i class="bi bi-server"></i>Backend en Java + Javalin</li>
+          <li><i class="bi bi-database"></i>Base de datos en MariaDB</li>
+          <li><i class="bi bi-cloud-arrow-up"></i>Despliegue en AWS EC2</li>
+          <li><i class="bi bi-people"></i>Trabajo en equipo de 3</li>
+        </ul>
       </div>
       <div class="md-grid-2" style="grid-template-columns:1fr">
+        <a class="md-shot" href="posts/proyecto-integrador/index.html"><img src="posts/proyecto-integrador/portada.jpg" alt="Captura de EduControl" loading="lazy"></a>
         <div class="md-card"><h3>Registro diario</h3><p>Tareas, exámenes, participación, disciplina y asistencia por grupo.</p></div>
         <div class="md-card"><h3>Calificaciones y reportes</h3><p>Cierre de periodo con ponderación automática, gráficas y dashboard.</p></div>
       </div>
@@ -212,8 +239,16 @@ ul.task-list li input[type="checkbox"] {
           <span class="md-pill">Kotlin</span><span class="md-pill">Jetpack Compose</span><span class="md-pill">MVVM</span><span class="md-pill">StateFlow</span>
         </div>
         <p style="margin-top:1.4rem"><a class="md-btn" href="posts/kotlin-compose/index.html">Leer cómo la hice →</a>&nbsp;<a class="md-btn" href="https://github.com/manu-09-web/GymAppkt">Ver código</a></p>
+        <p class="md-kicker" style="margin-top:2.4rem">Mi rol</p>
+        <ul class="md-role">
+          <li><i class="bi bi-phone"></i>App Android nativa</li>
+          <li><i class="bi bi-code-slash"></i>Kotlin + Jetpack Compose</li>
+          <li><i class="bi bi-diagram-3"></i>Arquitectura MVVM</li>
+          <li><i class="bi bi-lightning-charge"></i>Estado con StateFlow</li>
+        </ul>
       </div>
       <div class="md-grid-2" style="grid-template-columns:1fr">
+        <a class="md-shot" href="posts/kotlin-compose/index.html"><img src="posts/kotlin-compose/portada.jpg" alt="Capturas de Gym Tracker" loading="lazy"></a>
         <div class="md-card"><h3>Registro por serie</h3><p>Peso y repeticiones de cada serie, con progreso por ejercicio y general.</p></div>
         <div class="md-card"><h3>Resumen del entrenamiento</h3><p>Volumen, series, repeticiones y calorías estimadas, con desglose por ejercicio.</p></div>
       </div>
@@ -225,18 +260,23 @@ ul.task-list li input[type="checkbox"] {
   <div class="md-wrap">
     <p class="md-kicker">Aprendizaje</p>
     <h2 style="margin-top:0">Certificaciones y cursos</h2>
+    <div class="md-statcards">
+      <div class="md-card"><i class="bi bi-patch-check"></i><strong>7</strong><span>certificaciones</span></div>
+      <div class="md-card"><i class="bi bi-building"></i><strong>4</strong><span>instituciones</span></div>
+      <div class="md-card"><i class="bi bi-cloud"></i><strong>AWS</strong><span>Cloud Foundations</span></div>
+    </div>
     <div class="md-year" style="margin-top:1.5rem">
       <h2>2026</h2>
-      <div class="md-row"><span class="md-row-date">21 Jun</span><span><span class="md-row-title">Fundamentos de Ciberseguridad</span><span class="md-row-desc">Santander Open Academy · 1.5 h</span></span></div>
-      <div class="md-row"><span class="md-row-date">23 Abr</span><span><span class="md-row-title">Fundamentos de Python</span><span class="md-row-desc">Gobierno de México / INFOTEC · 30 h</span></span></div>
-      <div class="md-row"><span class="md-row-date">21 Mar</span><span><span class="md-row-title">Operating Systems Support</span><span class="md-row-desc">Cisco Networking Academy</span></span></div>
-      <div class="md-row"><span class="md-row-date">13 Feb</span><span><span class="md-row-title">Operating Systems Basics</span><span class="md-row-desc">Cisco Networking Academy</span></span></div>
+      <div class="md-row"><span class="md-row-date">21 Jun</span><span class="md-cert"><i class="bi bi-award"></i><span><span class="md-row-title">Fundamentos de Ciberseguridad</span><span class="md-row-desc">Santander Open Academy · 1.5 h</span></span></span></div>
+      <div class="md-row"><span class="md-row-date">23 Abr</span><span class="md-cert"><i class="bi bi-award"></i><span><span class="md-row-title">Fundamentos de Python</span><span class="md-row-desc">Gobierno de México / INFOTEC · 30 h</span></span></span></div>
+      <div class="md-row"><span class="md-row-date">21 Mar</span><span class="md-cert"><i class="bi bi-award"></i><span><span class="md-row-title">Operating Systems Support</span><span class="md-row-desc">Cisco Networking Academy</span></span></span></div>
+      <div class="md-row"><span class="md-row-date">13 Feb</span><span class="md-cert"><i class="bi bi-award"></i><span><span class="md-row-title">Operating Systems Basics</span><span class="md-row-desc">Cisco Networking Academy</span></span></span></div>
     </div>
     <div class="md-year">
       <h2>2025</h2>
-      <div class="md-row"><span class="md-row-date">22 Nov</span><span><span class="md-row-title">AWS Academy Graduate - Cloud Foundations</span><span class="md-row-desc">AWS Academy · 20 h</span></span></div>
-      <div class="md-row"><span class="md-row-date">16 Nov</span><span><span class="md-row-title">Introducción al Internet de las Cosas y Transformación Digital</span><span class="md-row-desc">Cisco Networking Academy</span></span></div>
-      <div class="md-row"><span class="md-row-date">28 Oct</span><span><span class="md-row-title">Conceptos básicos de redes</span><span class="md-row-desc">Cisco Networking Academy</span></span></div>
+      <div class="md-row"><span class="md-row-date">22 Nov</span><span class="md-cert"><i class="bi bi-award"></i><span><span class="md-row-title">AWS Academy Graduate - Cloud Foundations</span><span class="md-row-desc">AWS Academy · 20 h</span></span></span></div>
+      <div class="md-row"><span class="md-row-date">16 Nov</span><span class="md-cert"><i class="bi bi-award"></i><span><span class="md-row-title">Introducción al Internet de las Cosas y Transformación Digital</span><span class="md-row-desc">Cisco Networking Academy</span></span></span></div>
+      <div class="md-row"><span class="md-row-date">28 Oct</span><span class="md-cert"><i class="bi bi-award"></i><span><span class="md-row-title">Conceptos básicos de redes</span><span class="md-row-desc">Cisco Networking Academy</span></span></span></div>
     </div>
   </div>
 </section>
@@ -247,10 +287,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 style="margin-top:0">Conectemos</h2>
     <p>Encuéntrame, conoce mi trabajo o escríbeme.</p>
     <div class="md-grid-2" style="margin-top:1.5rem">
-      <a class="md-card" href="https://github.com/manu-09-web" rel="me"><h3>GitHub</h3><p>Proyectos y código</p></a>
-      <a class="md-card" href="https://www.linkedin.com/in/manuel-de-jes%C3%BAs-herrera-b59a39436" rel="me"><h3>LinkedIn</h3><p>Perfil profesional</p></a>
-      <a class="md-card" href="mailto:chusinhm19@gmail.com"><h3>Correo</h3><p>chusinhm19@gmail.com</p></a>
-      <a class="md-card" href="blog.xml"><h3>RSS</h3><p>Suscríbete a las entradas nuevas</p></a>
+      <a class="md-card" href="https://github.com/manu-09-web" rel="me"><i class="bi bi-github md-card-icon"></i><h3>GitHub</h3><p>Proyectos y código</p></a>
+      <a class="md-card" href="https://www.linkedin.com/in/manuel-de-jes%C3%BAs-herrera-b59a39436" rel="me"><i class="bi bi-linkedin md-card-icon"></i><h3>LinkedIn</h3><p>Perfil profesional</p></a>
+      <a class="md-card" href="mailto:chusinhm19@gmail.com"><i class="bi bi-envelope md-card-icon"></i><h3>Correo</h3><p>chusinhm19@gmail.com</p></a>
+      <a class="md-card" href="blog.xml"><i class="bi bi-rss md-card-icon"></i><h3>RSS</h3><p>Suscríbete a las entradas nuevas</p></a>
     </div>
 
     <h2>¿Tienes un proyecto en mente?</h2>
@@ -365,6 +405,20 @@ document.querySelectorAll("div.sourceCode").forEach(function (box) {
   var lang = Array.from(pre.classList).filter(function (c) { return skip.indexOf(c) < 0; })[0];
   box.setAttribute("data-lang", lang || "código");
 });
+
+// ---------- Botón para volver arriba ----------
+(function () {
+  var btn = document.createElement("button");
+  btn.className = "md-top";
+  btn.setAttribute("aria-label", "Volver arriba");
+  btn.innerHTML = '<i class="bi bi-arrow-up"></i>';
+  btn.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+  document.body.appendChild(btn);
+  // Se muestra cuando ya bajaste más de una pantalla
+  window.addEventListener("scroll", function () {
+    btn.classList.toggle("is-visible", window.scrollY > window.innerHeight);
+  }, { passive: true });
+})();
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
