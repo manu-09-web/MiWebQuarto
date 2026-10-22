@@ -1,6 +1,7 @@
 # manu.dev — blog personal de Manuel Herrera
 
-Blog dev personal hecho con **Quarto** (generador de sitios estáticos). Es una tarea de la carrera
+Landing personal hecha con **Quarto** (generador de sitios estáticos). El **blog se separó**: se rehace
+aparte con Astro y se despliega en Vercel. Este repo contiene **solo la landing**. Es una tarea de la carrera
 (Ingeniería en Tecnologías de la Información e Innovación Digital, Universidad Politécnica de Chiapas).
 Aquí se publican experiencias de la carrera y cosas que Manuel va aprendiendo. Todo el contenido va en español.
 
@@ -15,12 +16,11 @@ El sitio todavía **no se ha probado completo**: se armó sin poder ejecutar Qua
 ## Estructura
 
 - `_quarto.yml` — configuración, navbar, SEO (site-url, Open Graph, RSS, canonical).
-- `index.qmd` — landing: hero, sobre mí, lenguajes, proyectos, certificaciones, contacto. Es HTML dentro de un bloque `{=html}`.
-- `blog.qmd` — página del blog. Usa la plantilla `ejs/blog.ejs` (post destacado + lista por año).
-- `feed.qmd` — catálogo de entradas. Usa `ejs/feed.ejs` (tarjetas en 2 columnas, paginación).
-- `posts/<slug>/index.qmd` — cada entrada con sus imágenes. `posts/_metadata.yml` tiene las opciones comunes.
+- `index.qmd` — landing: hero, sobre mí, tecnologías, proyectos, certificaciones, contacto. Es HTML dentro de un bloque `{=html}`.
+- `_variables.yml` — `blog-url`, la dirección del blog. Todos los links al blog usan `{{< var blog-url >}}`; cambiarla solo ahí.
+- `img/proyectos/` — portadas de EduControl y Gym Tracker que usa la landing.
 - `styles/theme.scss` — todo el diseño. Los colores están arriba como variables Sass.
-- `assets/site.html` — JS: filtro por categoría, buscador, paginación, tiempo de lectura, barra de progreso.
+- `assets/site.html` — JS: botón para volver arriba (también tiene código de los listados del blog que ya no se usa).
 - `assets/head.html` — fuentes (Geist y Geist Mono) y metas.
 - `.github/workflows/publish.yml` — publica en GitHub Pages en cada push a `main`.
 
@@ -33,13 +33,12 @@ El sitio todavía **no se ha probado completo**: se armó sin poder ejecutar Qua
 - Principio que pidió Manuel: los elementos de una sección (campos, tarjetas, listas) deben medir lo mismo de ancho.
 - Las clases CSS propias llevan prefijo `md-`.
 - Una versión anterior en gris casi negro con acento naranja **no le gustó**; no volver a eso.
-- Los bocetos originales definen cuatro pantallas: landing, blog, entrada y feed. Se puede mejorar el look,
-  pero sin perder esa estructura.
+- Los bocetos originales definían cuatro pantallas (landing, blog, entrada y feed); aquí solo queda la landing.
 
 ## Contenido
 
 - Solo dos proyectos en todo el sitio: **EduControl** y **Gym Tracker**. No agregar otros sin que lo pida.
-- Posts publicados: `posts/kotlin-compose` (Gym Tracker) y `posts/proyecto-integrador` (EduControl).
+- Los posts (`kotlin-compose` y `proyecto-integrador`) se respaldaron en `../respaldo-posts/` para pasarlos al blog en Astro.
 - Los posts se escriben en primera persona con lo que Manuel hizo de verdad. No inventar datos,
   opiniones ni detalles técnicos; si falta información, preguntarle.
 - Certificaciones: solo la lista (nombre, institución, fecha). No publicar los PDF.
@@ -47,14 +46,8 @@ El sitio todavía **no se ha probado completo**: se armó sin poder ejecutar Qua
 
 ## Pendientes
 
-- Poner la URL real en `site-url` (`_quarto.yml`) y en `robots.txt`.
-- Usuario de LinkedIn y ID de Formspree en `index.qmd` (buscar `TU-USUARIO` y `TU-ID`).
-- Foto de perfil en `img/mifoto.jpeg`.
-- Post de Gym Tracker: los fragmentos de código son versiones simplificadas; cambiarlos por el código
-  real del repo https://github.com/manu-09-web/GymAppkt.
-- Post de EduControl: falta decir qué servicios de AWS se usaron (hay un comentario HTML en "Mi parte").
-- Definir cómo publicar posts sin tocar código (el profe lo va a enseñar; opciones: Decap CMS o crear
-  el archivo desde GitHub con el workflow ya incluido).
+- ID de Formspree en `index.qmd` (buscar `TU-ID`).
+- Poner la URL real del blog en `_variables.yml` cuando esté desplegado en Vercel.
 
 ## Cómo trabajar con Manuel
 

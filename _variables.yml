@@ -1,0 +1,3 @@
+# Dirección del blog (hecho aparte con Astro y desplegado en Vercel).
+# Cámbiala solo aquí: todos los links al blog de la landing la usan.
+blog-url: "https://blog-manudev.vercel.app"

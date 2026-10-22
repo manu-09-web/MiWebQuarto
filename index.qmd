@@ -15,7 +15,7 @@ title-block-style: none
       <h1>Soy Manuel<br><span class="md-grad">Herrera</span></h1>
       <p>Estudio Ingeniería en Tecnologías de la Información e Innovación Digital y me interesa el desarrollo de aplicaciones web. En proyectos académicos he trabajado frontend, backend, diseño de bases de datos, integración de APIs y despliegue en la nube con AWS. Me apasiona aprender tecnologías nuevas y desarrollar soluciones eficientes y de calidad.</p>
       <div class="md-actions">
-        <a class="md-btn is-solid" href="blog.html">Ver mi blog →</a>
+        <a class="md-btn is-solid" href="{{< var blog-url >}}">Ver mi blog →</a>
         <a class="md-btn" href="#proyectos">Conocer proyectos</a>
       </div>
     </div>
@@ -58,7 +58,7 @@ title-block-style: none
         <div class="md-tech">
           <span class="md-pill">HTML</span><span class="md-pill">CSS</span><span class="md-pill">JavaScript</span><span class="md-pill">Java + Javalin</span><span class="md-pill">MariaDB</span><span class="md-pill">AWS</span>
         </div>
-        <p style="margin-top:1.4rem"><a class="md-btn" href="posts/proyecto-integrador/index.html">Leer cómo lo hicimos →</a></p>
+        <p style="margin-top:1.4rem"><a class="md-btn" href="{{< var blog-url >}}">Leer cómo lo hicimos →</a></p>
         <p class="md-kicker" style="margin-top:2.4rem">Mi rol</p>
         <ul class="md-role">
           <li><i class="bi bi-server"></i>Backend en Java + Javalin</li>
@@ -68,7 +68,7 @@ title-block-style: none
         </ul>
       </div>
       <div class="md-grid-2" style="grid-template-columns:1fr">
-        <a class="md-shot" href="posts/proyecto-integrador/index.html"><img src="posts/proyecto-integrador/portada.jpg" alt="Captura de EduControl" loading="lazy"></a>
+        <a class="md-shot" href="{{< var blog-url >}}"><img src="img/proyectos/educontrol.jpg" alt="Captura de EduControl" loading="lazy"></a>
         <div class="md-card"><h3>Registro diario</h3><p>Tareas, exámenes, participación, disciplina y asistencia por grupo.</p></div>
         <div class="md-card"><h3>Calificaciones y reportes</h3><p>Cierre de periodo con ponderación automática, gráficas y dashboard.</p></div>
       </div>
@@ -81,7 +81,7 @@ title-block-style: none
         <div class="md-tech">
           <span class="md-pill">Kotlin</span><span class="md-pill">Jetpack Compose</span><span class="md-pill">MVVM</span><span class="md-pill">StateFlow</span>
         </div>
-        <p style="margin-top:1.4rem"><a class="md-btn" href="posts/kotlin-compose/index.html">Leer cómo la hice →</a>&nbsp;<a class="md-btn" href="https://github.com/manu-09-web/GymAppkt">Ver código</a></p>
+        <p style="margin-top:1.4rem"><a class="md-btn" href="{{< var blog-url >}}">Leer cómo la hice →</a>&nbsp;<a class="md-btn" href="https://github.com/manu-09-web/GymAppkt">Ver código</a></p>
         <p class="md-kicker" style="margin-top:2.4rem">Mi rol</p>
         <ul class="md-role">
           <li><i class="bi bi-phone"></i>App Android nativa</li>
@@ -91,7 +91,7 @@ title-block-style: none
         </ul>
       </div>
       <div class="md-grid-2" style="grid-template-columns:1fr">
-        <a class="md-shot" href="posts/kotlin-compose/index.html"><img src="posts/kotlin-compose/portada.jpg" alt="Capturas de Gym Tracker" loading="lazy"></a>
+        <a class="md-shot" href="{{< var blog-url >}}"><img src="img/proyectos/gym-tracker.jpg" alt="Capturas de Gym Tracker" loading="lazy"></a>
         <div class="md-card"><h3>Registro por serie</h3><p>Peso y repeticiones de cada serie, con progreso por ejercicio y general.</p></div>
         <div class="md-card"><h3>Resumen del entrenamiento</h3><p>Volumen, series, repeticiones y calorías estimadas, con desglose por ejercicio.</p></div>
       </div>
@@ -133,7 +133,7 @@ title-block-style: none
       <a class="md-card" href="https://github.com/manu-09-web" rel="me"><i class="bi bi-github md-card-icon"></i><h3>GitHub</h3><p>Proyectos y código</p></a>
       <a class="md-card" href="https://www.linkedin.com/in/manuel-de-jes%C3%BAs-herrera-b59a39436" rel="me"><i class="bi bi-linkedin md-card-icon"></i><h3>LinkedIn</h3><p>Perfil profesional</p></a>
       <a class="md-card" href="mailto:chusinhm19@gmail.com"><i class="bi bi-envelope md-card-icon"></i><h3>Correo</h3><p>chusinhm19@gmail.com</p></a>
-      <a class="md-card" href="blog.xml"><i class="bi bi-rss md-card-icon"></i><h3>RSS</h3><p>Suscríbete a las entradas nuevas</p></a>
+      <a class="md-card" href="{{< var blog-url >}}"><i class="bi bi-journal-text md-card-icon"></i><h3>Blog</h3><p>Mis apuntes y experiencias</p></a>
     </div>
 
     <h2>¿Tienes un proyecto en mente?</h2>

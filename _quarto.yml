@@ -31,18 +31,9 @@ website:
       - text: Inicio
         icon: house
         href: index.qmd
-      - text: Blog
-        icon: journal-text
-        href: blog.qmd
-      - text: Feed
-        icon: grid
-        href: feed.qmd
       - icon: github
         href: https://github.com/manu-09-web
         aria-label: GitHub
-      - icon: rss
-        href: blog.xml
-        aria-label: RSS
   page-footer:
     center: "© 2026 manu.dev · Manuel Herrera"
 
